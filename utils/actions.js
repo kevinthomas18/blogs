@@ -4,8 +4,9 @@ export const fetchAllBlogs = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        // Optionally, you can pass 'revalidate' as part of fetch options (but it's not necessary in this case)
       },
-      // cache: "no-store",
+      next: { revalidate: 10 }, // Revalidate the data every 10 seconds
     });
 
     if (!response.ok) {
@@ -18,6 +19,27 @@ export const fetchAllBlogs = async () => {
     throw error;
   }
 };
+
+// export const fetchAllBlogs = async () => {
+//   try {
+//     const response = await fetch("https://blogs-23vc.onrender.com/", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       cache: "no-store",
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error("Failed to fetch blogs:", error);
+//     throw error;
+//   }
+// };
 
 export const getBlogDetail = async (slug, token) => {
   try {

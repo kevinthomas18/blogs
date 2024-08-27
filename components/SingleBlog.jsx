@@ -171,7 +171,7 @@ const SingleBlog = ({ blog }) => {
         />
         {blog?.data.sections.map((section) => {
           return (
-            <div className="mt-5">
+            <div key={section.heading} className="mt-5">
               <h3 className="font-bold mb-3">{section.heading}</h3>
               <div dangerouslySetInnerHTML={{ __html: section.content }}></div>
             </div>

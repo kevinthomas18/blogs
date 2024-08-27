@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
-import Editor from "@/components/Editor";
 import { createNewPost } from "@/utils/actions";
+
+// Dynamically import the Editor to avoid issues with SSR (Server-Side Rendering)
+const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -17,8 +20,15 @@ export default function CreatePost() {
   const [premium, setPremium] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+  const { data: session, status } = useSession();
   const router = useRouter();
-  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      // Redirect to sign-in page if not authenticated
+      router.push("/auth/signin");
+    }
+  }, [status, router]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -62,7 +72,6 @@ export default function CreatePost() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("top_description", topDescription);
-    // formData.append("description", topDescription);
     formData.append("bottom_description", bottomDescription);
     formData.append("is_published", isPublished);
     formData.append("premium", premium);
@@ -70,24 +79,19 @@ export default function CreatePost() {
     formData.append("sections", JSON.stringify(sections)); // Convert sections array to JSON string
     if (files) formData.append("image", files);
 
-    console.log(formData.get("top_description"));
-    console.log(formData.get("bottom_description"));
-    console.log(formData.get("short_description"));
-    console.log(formData.get("sections"));
-    console.log(formData.get("title"));
-    console.log(formData.get("premium"));
-    console.log(formData.get("is_published"));
-    console.log(formData.get("image"));
+    try {
+      const result = await createNewPost(formData, session?.user?.token);
 
-    const result = await createNewPost(formData, session?.user?.token);
-
-    if (result.success) {
-      router.push("/");
-    } else {
-      console.error("Submission failed:", result.error);
+      if (result.success) {
+        router.push("/");
+      } else {
+        console.error("Submission failed:", result.error);
+      }
+    } catch (error) {
+      console.error("Error during submission:", error);
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
   }
 
   return (
@@ -122,7 +126,6 @@ export default function CreatePost() {
           </label>
           <textarea
             id="top-description"
-            type="text"
             placeholder="Enter a brief description"
             value={topDescription}
             onChange={(ev) => setTopDescription(ev.target.value)}
@@ -199,7 +202,6 @@ export default function CreatePost() {
           </label>
           <textarea
             id="bottom-description"
-            type="text"
             placeholder="Enter a brief description"
             value={bottomDescription}
             onChange={(ev) => setBottomDescription(ev.target.value)}
@@ -255,14 +257,12 @@ export default function CreatePost() {
 
         <button
           type="submit"
-          className={`mt-4 py-2 px-4 rounded ${
-            isSubmitting
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          } text-white font-bold w-[40%] transition duration-300 ease-in-out transform hover:scale-105`}
           disabled={isSubmitting}
+          className={`py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded transition duration-300 ease-in-out transform ${
+            isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          {isSubmitting ? "Submitting..." : "Create Blog"}
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>

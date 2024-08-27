@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { loadManifestWithRetries } from "next/dist/server/load-components";
 
 export const authOptions = {
   providers: [
@@ -8,7 +9,9 @@ export const authOptions = {
       credentials: {},
       async authorize(credentials) {
         const { email, password } = credentials;
+        console.log(credentials, "start");
         try {
+          loadManifestWithRetries;
           const response = await fetch(
             "https://blogs-23vc.onrender.com/user/login",
             {
@@ -33,7 +36,7 @@ export const authOptions = {
             console.log("User object is empty or undefined");
             return null;
           }
-
+         
           return user; // Return the user object
         } catch (error) {
           console.error("Error during authorization:", error);

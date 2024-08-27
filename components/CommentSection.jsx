@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useUser } from "@/components/UserContext";
 
-const CommentSection = () => {
+const CommentSection = ({ params }) => {
+  const user = useUser();
   const [comment, setComment] = useState("");
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [reply, setReply] = useState("");
@@ -17,6 +19,36 @@ const CommentSection = () => {
     setShowReplyInput(!showReplyInput);
   };
 
+  const createComment = async () => {
+    if (!comment.trim()) return;
+
+    try {
+      const response = await fetch(
+        `https://blogs-23vc.onrender.com/blogs/${params.slug}/comment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.user.token}`,
+          },
+          body: JSON.stringify({ comment }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+
+      if (response.ok) {
+        console.log(data.msg); // Comment Created Successfully
+        // Optionally clear the comment input or fetch updated comments
+        setComment("");
+      } else {
+        console.error(response);
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
   return (
     <div className="mx-auto mt-28">
       {/* Comment Input Section */}
@@ -29,6 +61,7 @@ const CommentSection = () => {
         ></textarea>
         <div className="flex justify-end mt-2">
           <button
+            onClick={createComment}
             className={`bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ${
               comment.trim().length === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}

@@ -98,7 +98,6 @@ const SingleBlog = ({ blog }) => {
     console.log("SEO Data Updated:", seoData);
     handleCloseSEODrawer();
   };
-  console.log(blog.data.banner.path, "data");
 
   return (
     <>

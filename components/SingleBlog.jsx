@@ -189,7 +189,7 @@ const SingleBlog = ({ blog }) => {
         )}
 
         <h3 className="font-semibold">{blog?.data.bottom_description}</h3>
-        <CommentSection params={params} />
+        <CommentSection params={params} blog={blog} />
       </div>
     </>
   );

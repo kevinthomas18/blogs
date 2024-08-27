@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useUser } from "@/components/UserContext";
 
-const CommentSection = ({ params }) => {
+const CommentSection = ({ params, blog }) => {
   const user = useUser();
   const [comment, setComment] = useState("");
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [reply, setReply] = useState("");
+  console.log(blog.data);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -73,49 +74,55 @@ const CommentSection = ({ params }) => {
       </div>
 
       {/* Existing Comments Section */}
-      <div className="mt-6 ml-7">
-        <div className="flex items-start space-x-4 p-4 bg-gray-100 rounded-lg">
-          <div className="w-10 h-10 bg-gray-300 rounded-full"></div>{" "}
-          {/* Avatar Placeholder */}
-          <div className="flex-1">
-            <p className="text-gray-800 font-semibold">John Doe</p>
-            <p className="text-gray-600 text-sm">This is a sample comment.</p>
-            <div className="flex space-x-4 text-gray-500 text-sm mt-2">
-              <button>Like</button>
-              <button
-                className="hover:text-indigo-600"
-                onClick={handleReplyClick}
-              >
-                Reply
-              </button>
-              <span>2 hours ago</span>
-            </div>
-            {/* Reply Input Section */}
-            {showReplyInput && (
-              <div className="mt-4">
-                <textarea
-                  className="w-full h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="Write a reply..."
-                  value={reply}
-                  onChange={handleReplyChange}
-                ></textarea>
-                <div className="flex justify-end mt-2">
+      {blog.data.comments.map((comment) => {
+        return (
+          <div className="mt-6 ml-7">
+            <div className="flex items-start space-x-4 p-4 bg-gray-100 rounded-lg">
+              <div className="w-10 h-10 bg-gray-300 rounded-full"></div>{" "}
+              {/* Avatar Placeholder */}
+              <div className="flex-1">
+                <p className="text-gray-800 font-semibold">
+                  {comment.user.name}
+                </p>
+                <p className="text-gray-600 text-sm">{comment.comment}</p>
+                <div className="flex space-x-4 text-gray-500 text-sm mt-2">
+                  <button>Like</button>
                   <button
-                    className={`bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ${
-                      reply.trim().length === 0
-                        ? "opacity-50 cursor-not-allowed"
-                        : ""
-                    }`}
-                    disabled={reply.trim().length === 0}
+                    className="hover:text-indigo-600"
+                    onClick={handleReplyClick}
                   >
-                    Post Reply
+                    Reply
                   </button>
+                  <span>2 hours ago</span>
                 </div>
+                {/* Reply Input Section */}
+                {showReplyInput && (
+                  <div className="mt-4">
+                    <textarea
+                      className="w-full h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      placeholder="Write a reply..."
+                      value={reply}
+                      onChange={handleReplyChange}
+                    ></textarea>
+                    <div className="flex justify-end mt-2">
+                      <button
+                        className={`bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ${
+                          reply.trim().length === 0
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }`}
+                        disabled={reply.trim().length === 0}
+                      >
+                        Post Reply
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
 };

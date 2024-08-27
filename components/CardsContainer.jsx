@@ -12,7 +12,7 @@ const CardsContainer = async () => {
             key={blog.id}
             blogId={blog.id}
             title={blog.title}
-            shortDescription={blog.short_description}
+            shortDescription={blog.top_description}
             publish_date={blog.publish_date}
             bannerImage={`https://blogs-23vc.onrender.com${blog.banner?.path}`}
           />

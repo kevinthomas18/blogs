@@ -99,6 +99,8 @@ const SingleBlog = ({ blog }) => {
     handleCloseSEODrawer();
   };
 
+  console.log(blog.data);
+
   return (
     <>
       {isAuthor && (
@@ -160,14 +162,21 @@ const SingleBlog = ({ blog }) => {
 
       <div className="px-3 md:px-24 lg:px-60 xl:px-80 py-20">
         <h1 className="text-2xl font-bold mt-3 mb-10">{blog?.data.title}</h1>
+        <h2 className=" font-semibold mt-3 mb-10">
+          {blog?.data.top_description}
+        </h2>
         <img
           src={selectedImages.banner || blog?.data?.banner?.path}
           alt="banner image"
         />
-        <div
-          className="text-gray-600 my-8"
-          dangerouslySetInnerHTML={{ __html: blog?.data.description }}
-        ></div>
+        {blog?.data.sections.map((section) => {
+          return (
+            <div className="mt-5">
+              <h3 className="font-bold mb-3">{section.heading}</h3>
+              <div dangerouslySetInnerHTML={{ __html: section.content }}></div>
+            </div>
+          );
+        })}
 
         {/* Featured Image Display */}
         {selectedImages.featured && (
@@ -177,6 +186,8 @@ const SingleBlog = ({ blog }) => {
             className="w-full h-full object-cover rounded mt-4"
           />
         )}
+
+        <h3 className="font-semibold">{blog?.data.bottom_description}</h3>
         <CommentSection />
       </div>
     </>

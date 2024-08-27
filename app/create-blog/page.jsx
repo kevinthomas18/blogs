@@ -258,11 +258,11 @@ export default function CreatePost() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded transition duration-300 ease-in-out transform ${
+          className={`py-2 px-4 w-[100%] bg-blue-500 hover:bg-blue-600 text-white font-bold rounded transition duration-300 ease-in-out transform ${
             isSubmitting ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {isSubmitting ? "Submitting..." : "Submit"}
+          {isSubmitting ? "Submitting..." : "Create Blog"}
         </button>
       </form>
     </div>

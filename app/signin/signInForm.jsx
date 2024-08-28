@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -25,6 +26,9 @@ export default function SignInForm() {
         console.log("signin error", res.error);
         return;
       }
+      toast("Logged In!", {
+        theme: "colored",
+      });
       router.replace("/");
     } catch (error) {
       console.log(error);

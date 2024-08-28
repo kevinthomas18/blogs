@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { AuthProvider } from "./Providers";
 import { UserProvider } from "@/components/UserContext";
+import { ToastContainer } from "@/components/nextToast";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,8 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <UserProvider>
             <Navbar />
-            {children}{" "}
+            {children}
+            <ToastContainer />
           </UserProvider>
         </AuthProvider>
       </body>

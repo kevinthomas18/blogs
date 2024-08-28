@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { createNewPost } from "@/utils/actions";
+import { toast } from "react-toastify";
 
 // Dynamically import the Editor to avoid issues with SSR (Server-Side Rendering)
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
@@ -83,6 +84,7 @@ export default function CreatePost() {
       const result = await createNewPost(formData, session?.user?.token);
 
       if (result.success) {
+        toast.success("Blog created successfully", { hideProgressBar: true });
         router.push("/");
       } else {
         console.error("Submission failed:", result.error);

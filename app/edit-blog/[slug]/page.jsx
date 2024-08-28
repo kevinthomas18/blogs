@@ -6,6 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { getBlogDetail } from "@/utils/actions";
+import { toast } from "react-toastify";
 
 // Dynamically import the Editor to avoid issues with SSR (Server-Side Rendering)
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
@@ -109,6 +110,7 @@ export default function EditBlogPage() {
       const result = await response.json();
 
       if (response.ok) {
+        toast.success("Blog updated successfully", { hideProgressBar: true });
         router.push("/");
       } else {
         console.error("Update failed:", result.error);

@@ -89,7 +89,7 @@ const CommentSection = ({ params, blog }) => {
                 {/* Avatar Placeholder */}
                 <div className="flex-1">
                   <p className="text-gray-800 font-semibold">
-                    {comment.user.name}
+                    {comment?.commented_by?.name}
                   </p>
                   <p className="text-gray-600 text-sm">{comment.comment}</p>
                   <div className="flex space-x-4 text-gray-500 text-sm mt-2">

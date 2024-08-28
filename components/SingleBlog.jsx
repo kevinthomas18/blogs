@@ -11,8 +11,10 @@ import CommentSection from "./CommentSection";
 import Modal from "./Modal";
 import ImageDrawer from "./ImageDrawer";
 import SEODrawer from "./SEODrawer";
+import { toast } from "react-toastify";
 
 const SingleBlog = ({ blog }) => {
+  
   const { user } = useUser();
   const params = useParams();
   const isAuthor = user?.id === blog?.data?.author;
@@ -22,7 +24,7 @@ const SingleBlog = ({ blog }) => {
   const [isSEODrawerOpen, setIsSEODrawerOpen] = useState(false);
 
   const [selectedImages, setSelectedImages] = useState({
-    banner: `https://blogs-23vc.onrender.com${blog.data.banner?.path}` || "",
+    banner: `https://blogs-23vc.onrender.com${blog?.data.banner?.path}` || "",
     featured: "",
     thumbnail: "",
   });
@@ -52,6 +54,7 @@ const SingleBlog = ({ blog }) => {
 
       if (response.ok) {
         setIsModalOpen(false);
+        toast.error("Blog deleted successfully!", { hideProgressBar: true });
         router.replace("/");
       } else {
         const errorText = await response.text();

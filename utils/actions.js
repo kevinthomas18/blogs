@@ -41,18 +41,14 @@ export const fetchAllBlogs = async () => {
 //   }
 // };
 
-export const getBlogDetail = async (slug, token) => {
+export const getBlogDetail = async (slug) => {
   try {
-    const response = await fetch(
-      `https://blogs-23vc.onrender.com/blogs/${slug}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`https://blogs-23vc.onrender.com/${slug}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to fetch blog details");
@@ -88,5 +84,26 @@ export async function createNewPost(formData, token) {
     };
   }
 }
+
+export const fetchAllForums = async () => {
+  try {
+    const response = await fetch("https://blogs-23vc.onrender.com/api/forum", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 10 },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to fetch forums:", error);
+    throw error;
+  }
+};
 
 

@@ -39,7 +39,7 @@ const page = async ({ params }) => {
       {/* Main Content */}
       <div>
         <div className="relative w-full min-w-[400px] lg:w-3/4 p-6 border border-gray-200 rounded-lg ">
-          {isAuthor && <ThreadEditDelete params={params} />}
+          {isAuthor && <ThreadEditDelete params={params} data={data.data} />}
           <div className="absolute top-8 right-8 text-gray-500 text-sm">
             {format(new Date(data?.data.createdAt), "PPP p")}
           </div>

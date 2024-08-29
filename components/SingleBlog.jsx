@@ -14,7 +14,6 @@ import SEODrawer from "./SEODrawer";
 import { toast } from "react-toastify";
 
 const SingleBlog = ({ blog }) => {
-  
   const { user } = useUser();
   const params = useParams();
   const isAuthor = user?.id === blog?.data?.author;
@@ -108,7 +107,7 @@ const SingleBlog = ({ blog }) => {
   return (
     <>
       {isAuthor && (
-        <div className="absolute flex flex-col space-y-2 top-40 left-10 justify-start">
+        <div className="absolute flex flex-row space-y-2 top-40 left-10 md:flex-col md:space-x-2">
           <button
             className="text-gray-600 hover:text-orange-400 font-semibold flex items-center"
             onClick={handleEdit}

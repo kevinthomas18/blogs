@@ -105,5 +105,3 @@ export const fetchAllForums = async () => {
     throw error;
   }
 };
-
-

@@ -1,10 +1,10 @@
 import React from "react";
-import DiscussionForum from "./create-thread";
+import DiscussionForum from "../../components/DiscussionForum";
 import { fetchAllForums } from "@/utils/actions";
 
 const page = async () => {
   const forums = await fetchAllForums();
-  console.log(forums);
+  //console.log(forums);
 
   return (
     <div>

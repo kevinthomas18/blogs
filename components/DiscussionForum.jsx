@@ -167,8 +167,14 @@ const DiscussionForum = ({ forums }) => {
                   </div>
                   <div className="flex-shrink-0 text-right">
                     <div className="text-gray-700">
-                      {topic?.replies.length} Replies
+                      {topic?.replies.length > -1 && (
+                        <>
+                          {topic.replies.length}{" "}
+                          {topic.replies.length === 1 ? "Reply" : "Replies"}
+                        </>
+                      )}
                     </div>
+
                     {/* <div className="text-gray-500">{topic.views} Views</div> */}
                   </div>
                 </li>

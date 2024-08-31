@@ -1,5 +1,3 @@
-
-
 import CardsContainer from "@/components/CardsContainer";
 import Heading from "@/components/Heading";
 

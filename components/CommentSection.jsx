@@ -229,14 +229,25 @@ const CommentSection = ({ params, blog }) => {
                         onClick={() =>
                           handleUnlike(comment.id, blog.data.id, likeId)
                         }
+                        className="relative group"
                       >
                         <AiOutlineDislike className="text-xl" />
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                          Unlike
+                        </span>
                       </button>
                     ) : (
-                      <button onClick={() => handleLike(comment.id, blog.id)}>
+                      <button
+                        onClick={() => handleLike(comment.id, blog.id)}
+                        className="relative group"
+                      >
                         <AiOutlineLike className="text-xl" />
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                          Like
+                        </span>
                       </button>
                     )}
+
                     {/* Display likes count only if there are 1 or more likes */}
                     {comment.likes?.length > 0 && (
                       <span className="text-red-500 flex justify-center items-center">

@@ -7,6 +7,7 @@ import { useUser } from "@/components/UserContext";
 import { toast } from "react-toastify";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
 
@@ -43,7 +44,7 @@ const DiscussionForum = ({ forums }) => {
         }
       );
       const data = await response.json();
-      console.log("Thread created:", data);
+
       if (!data?.err) {
         toast.success("Thread created");
         closeModal();
@@ -54,7 +55,9 @@ const DiscussionForum = ({ forums }) => {
       console.error("Error creating thread:", error);
     }
   };
+
   // Dummy data for topics
+
   const topics = [
     {
       id: 1,

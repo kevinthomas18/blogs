@@ -40,7 +40,6 @@ export const fetchAllBlogs = async () => {
 //     throw error;
 //   }
 // };
-
 export const getBlogDetail = async (slug) => {
   try {
     const response = await fetch(`https://blogs-23vc.onrender.com/${slug}`, {

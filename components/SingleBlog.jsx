@@ -12,6 +12,8 @@ import Modal from "./Modal";
 import ImageDrawer from "./ImageDrawer";
 import SEODrawer from "./SEODrawer";
 import { toast } from "react-toastify";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { BsSave2 } from "react-icons/bs";
 
 const SingleBlog = ({ blog }) => {
   const { user } = useUser();
@@ -164,7 +166,28 @@ const SingleBlog = ({ blog }) => {
       />
 
       <div className="px-3 md:px-14 lg:px-60 xl:px-80 py-20">
-        <h1 className="text-2xl font-bold mt-3 mb-10">{blog?.data.title}</h1>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold mt-3 mb-10">
+              {blog?.data.title}
+            </h1>
+          </div>
+          <div className="relative flex items-center">
+            <button className="text-2xl text-red-500 mr-4 relative group">
+              <IoMdHeartEmpty />
+              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                Like
+              </span>
+            </button>
+            <button className="text-2xl text-blue-500 relative group">
+              <BsSave2 />
+              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                Save
+              </span>
+            </button>
+          </div>
+        </div>
+
         <h2 className=" font-semibold mt-3 mb-10">
           {blog?.data.top_description}
         </h2>

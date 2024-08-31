@@ -1,11 +1,17 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiSolidOffer } from "react-icons/bi";
 import { FaPenToSquare } from "react-icons/fa6";
 import { GoDiscussionClosed } from "react-icons/go";
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <nav className="flex justify-between mr-4 p-5 font-inter">
       <div className="flex items-center mr-4">
@@ -14,7 +20,7 @@ const Navbar = () => {
           Menu
         </button> */}
 
-        <div className="relative inline-block group">
+        {/* <div className="relative inline-block group">
           <button className="bg-[#FFEEDF] px-4 py-2 flex items-center mr-8">
             <GiHamburgerMenu className="mr-2" />
             Menu
@@ -26,6 +32,29 @@ const Navbar = () => {
               className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
             >
               Discuss Forum
+            </Link>
+          </div>
+        </div> */}
+
+        <div className="relative inline-block group">
+          <button className="bg-[#FFEEDF] px-4 py-2 flex items-center mr-8">
+            <GiHamburgerMenu className="mr-2" />
+            Menu
+          </button>
+
+          <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <Link
+              href="/discuss-forum"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-t-lg"
+            >
+              Discuss Forum
+            </Link>
+            <div className="border-t border-gray-300"></div>
+            <Link
+              href="/career"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-b-lg"
+            >
+              Career
             </Link>
           </div>
         </div>

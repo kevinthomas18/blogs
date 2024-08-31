@@ -15,10 +15,11 @@ const page = async ({ params }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: 10 },
       }
     );
     data = await response.json();
+
+    console.log(data);
 
     console.log(data.data.replies);
 

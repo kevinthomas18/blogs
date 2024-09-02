@@ -276,9 +276,9 @@ const Navbar = () => {
                 stroke-linejoin="round"
               />
             </svg>
-            Home
+            Blogs
           </Link>
-          <Link href="/" className="flex items-center mr-10">
+          <Link href="/discuss-forum" className="flex items-center mr-10">
             <svg
               className="mr-3"
               xmlns="http://www.w3.org/2000/svg"
@@ -747,9 +747,9 @@ const Navbar = () => {
                 stroke-linejoin="round"
               />
             </svg>
-            Taj Mahal
+            Forum
           </Link>
-          <Link href="/" className="flex items-center">
+          <Link href="/services" className="flex items-center">
             <svg
               className="mr-3"
               xmlns="http://www.w3.org/2000/svg"
@@ -907,7 +907,7 @@ const Navbar = () => {
                 stroke-linejoin="round"
               />
             </svg>
-            Big Ben Tower
+            Services
           </Link>
         </div>
       </div>

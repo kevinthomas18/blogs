@@ -59,16 +59,12 @@ const ThreadEditDelete = ({ params, data }) => {
     console.log("New Editor Value:", newValue);
   };
 
-  useEffect(() => {
-    console.log("Updated editor value:", editorValue);
-  }, [editorValue]);
-
   const handleEdit = () => {
     openModal(
       <div>
         <h2 className="text-xl font-bold mb-4">Edit Your Thread</h2>
 
-        <Editor value={editorValue} onChange={handleChange} />
+        <Editor value={editorValue} onChange={setEditorValue} />
       </div>,
       async () => {
         try {

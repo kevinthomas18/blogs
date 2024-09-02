@@ -7,13 +7,15 @@ import { toast } from "react-toastify";
 import { CiHeart } from "react-icons/ci";
 import { AiOutlineDislike } from "react-icons/ai";
 import { AiOutlineLike } from "react-icons/ai";
+import { createComment } from "@/utils/actions"; // Import the function
 
 const CommentSection = ({ params, blog }) => {
   const user = useUser();
   const [comment, setComment] = useState("");
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [reply, setReply] = useState("");
-  const [comments, setComments] = useState(blog.data.comments);
+  const [comments, setComments] = useState(blog?.data.comments);
+
   // Local state for comments
 
   const handleCommentChange = (e) => {
@@ -126,35 +128,28 @@ const CommentSection = ({ params, blog }) => {
     }
   };
 
-  const createComment = async () => {
+  const handleCreateComment = async () => {
     if (!comment.trim()) return;
 
-    try {
-      const response = await fetch(
-        `https://blogs-23vc.onrender.com/blogs/${params.slug}/comment`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.user.token}`,
-          },
-          body: JSON.stringify({ comment }),
-        }
-      );
-      const data = await response.json();
+    const { success, data, error } = await createComment(
+      params.slug,
+      comment,
+      user.user.token
+    );
 
-      if (response.ok) {
-        toast("Comment added", {
-          hideProgressBar: true,
-          position: "bottom-right",
-        });
+    if (success) {
+      toast("Comment added", {
+        hideProgressBar: true,
+        position: "bottom-right",
+      });
 
-        setComment("");
-      } else {
-        console.error(response);
-      }
-    } catch (error) {
-      console.error("Error:", error.message);
+      setComment("");
+      setComments((prevComments) => [...prevComments, data.comment]); // Assuming `data.comment` contains the new comment
+    } else {
+      toast.error(error || "Failed to add comment", {
+        hideProgressBar: true,
+        position: "bottom-right",
+      });
     }
   };
 
@@ -172,7 +167,7 @@ const CommentSection = ({ params, blog }) => {
         ></textarea>
         <div className="flex justify-end mt-2">
           <button
-            onClick={createComment}
+            onClick={handleCreateComment}
             className={`bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ${
               comment.trim().length === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
@@ -185,25 +180,25 @@ const CommentSection = ({ params, blog }) => {
 
       {/* Existing Comments Section */}
       <div>
-        {comments.map((comment) => {
+        {comments?.map((comment) => {
           // Validate the createdAt field
-          const timeAgo = comment.createdAt
+          const timeAgo = comment?.createdAt
             ? formatDistanceToNow(new Date(comment.createdAt), {
                 addSuffix: true,
               })
             : "Just now";
 
           // Check if the current user has liked this comment
-          const isLiked = comment.likes.some((like) => like.user_id === userId);
+          const isLiked = comment?.likes.some(
+            (like) => like.user_id === userId
+          );
 
-          const likeId = comment.likes?.find(
+          const likeId = comment?.likes?.find(
             (like) => like.user_id == user?.user?.id
           )?.id;
 
-          console.log(likeId);
-
           return (
-            <div className="mt-6 ml-7" key={comment.id}>
+            <div className="mt-6 ml-7" key={comment?.id}>
               <div className="flex items-start space-x-4 p-4 bg-gray-100 rounded-lg">
                 {/* Avatar with First Letter */}
                 <div
@@ -222,7 +217,7 @@ const CommentSection = ({ params, blog }) => {
                   <p className="text-gray-800 font-semibold capitalize">
                     {comment?.commented_by?.name}
                   </p>
-                  <p className="text-gray-600 text-sm">{comment.comment}</p>
+                  <p className="text-gray-600 text-sm">{comment?.comment}</p>
                   <div className="flex space-x-4 text-gray-500 text-sm mt-2 items-center">
                     {isLiked ? (
                       <button
@@ -241,66 +236,63 @@ const CommentSection = ({ params, blog }) => {
                         onClick={() => handleLike(comment.id, blog.id)}
                         className="relative group"
                       >
-                        <AiOutlineLike className="text-xl" />
+                        <CiHeart className="text-xl" />
                         <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
                           Like
                         </span>
                       </button>
                     )}
-
                     {/* Display likes count only if there are 1 or more likes */}
-                    {comment.likes?.length > 0 && (
+                    {comment?.likes?.length > 0 && (
                       <span className="text-red-500 flex justify-center items-center">
                         <CiHeart className="text-xl mr-1" />{" "}
                         {comment.likes.length}
                       </span>
                     )}
                     <button
-                      className="hover:text-indigo-600"
                       onClick={handleReplyClick}
+                      className="relative group"
                     >
-                      Reply
+                      Relpy
+                      <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                        Reply
+                      </span>
                     </button>
-                    <span>{timeAgo}</span>
-                    {userId === comment.user_id && (
-                      <div className="flex absolute right-2">
-                        <button className="mr-2 text-lg">
-                          <CiEdit />
-                        </button>{" "}
-                        <button
-                          className="text-red-400 text-lg"
-                          onClick={() =>
-                            handleCommentDelete(blog.data.id, comment.id)
-                          }
-                        >
-                          <MdDeleteOutline />
-                        </button>
-                      </div>
-                    )}
+                    <div className="absolute bottom-3 right-3">
+                      <button
+                        onClick={() =>
+                          handleCommentDelete(blog.data.id, comment.id)
+                        }
+                        className="relative group"
+                      >
+                        <MdDeleteOutline className="text-xl" />
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
                   </div>
-                  {/* Reply Input Section */}
                   {showReplyInput && (
                     <div className="mt-4">
                       <textarea
-                        className="w-full h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         placeholder="Write a reply..."
                         value={reply}
                         onChange={handleReplyChange}
                       ></textarea>
-                      <div className="flex justify-end mt-2">
-                        <button
-                          className={`bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ${
-                            reply.trim().length === 0
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
-                          }`}
-                          disabled={reply.trim().length === 0}
-                        >
-                          Post Reply
-                        </button>
-                      </div>
+                      <button
+                        onClick={() => {
+                          // Handle reply logic
+                          setReply("");
+                          setShowReplyInput(false);
+                        }}
+                        className="bg-indigo-600 text-white px-4 py-2 mt-2 rounded-lg hover:bg-indigo-700 transition duration-300"
+                      >
+                        Post Reply
+                      </button>
                     </div>
                   )}
+                  <p className="text-gray-400 text-xs mt-1">{timeAgo}</p>
                 </div>
               </div>
             </div>

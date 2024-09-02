@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { GoBriefcase } from "react-icons/go";
+import Link from "next/link";
 
 const CareerPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,7 +63,8 @@ const CareerPage = () => {
       <div className="space-y-8">
         {filteredJobs.length > 0 ? (
           filteredJobs.map((job) => (
-            <div
+            <Link
+              href={`/career/${job.id}`}
               key={job.id}
               className="border border-gray-300 rounded-lg p-6 flex items-start space-x-4 cursor-pointer"
             >
@@ -90,7 +92,7 @@ const CareerPage = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <p className="text-gray-600">No jobs found.</p>

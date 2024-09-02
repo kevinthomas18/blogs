@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
-import { createNewPost } from "@/utils/actions";
 import { toast } from "react-toastify";
 
 // Dynamically import the Editor to avoid issues with SSR (Server-Side Rendering)
@@ -16,7 +15,6 @@ export default function CreatePost() {
   const [topDescription, setTopDescription] = useState("");
   const [bottomDescription, setBottomDescription] = useState("");
   const [sections, setSections] = useState([{ heading: "", content: "" }]);
-  const [files, setFiles] = useState(null);
   const [isPublished, setIsPublished] = useState(false);
   const [premium, setPremium] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,7 +24,6 @@ export default function CreatePost() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      // Redirect to sign-in page if not authenticated
       router.push("/auth/signin");
     }
   }, [status, router]);
@@ -41,7 +38,6 @@ export default function CreatePost() {
       newErrors.heading = "All section headings are required.";
     if (sections.some((section) => !section.content.trim()))
       newErrors.content = "All content sections are required.";
-    if (!files) newErrors.files = "Banner image is required.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -70,30 +66,22 @@ export default function CreatePost() {
 
     setIsSubmitting(true);
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("top_description", topDescription);
-    formData.append("bottom_description", bottomDescription);
-    formData.append("is_published", isPublished);
-    formData.append("premium", premium);
-    formData.append("short_description", topDescription); // Assuming this is the same as topDescription
-    formData.append("sections", JSON.stringify(sections)); // Convert sections array to JSON string
-    if (files) formData.append("image", files);
+    // Store the form data in session storage or state management tool (e.g., Redux, Context API)
+    const postData = {
+      title,
+      topDescription,
+      bottomDescription,
+      isPublished,
+      premium,
+      shortDescription: topDescription,
+      sections,
+    };
 
-    try {
-      const result = await createNewPost(formData, session?.user?.token);
+    // Save the post data in session storage
+    sessionStorage.setItem("postData", JSON.stringify(postData));
 
-      if (result.success) {
-        toast.success("Blog created successfully", { hideProgressBar: true });
-        router.push("/");
-      } else {
-        console.error("Submission failed:", result.error);
-      }
-    } catch (error) {
-      console.error("Error during submission:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Redirect to the upload page
+    router.push("/upload-banner");
   }
 
   return (
@@ -213,23 +201,6 @@ export default function CreatePost() {
           />
         </div>
 
-        <div className="mb-6">
-          <label htmlFor="file" className="block text-lg font-semibold mb-2">
-            Upload Banner Image
-          </label>
-          <input
-            id="file"
-            type="file"
-            onChange={(ev) => setFiles(ev.target.files[0])}
-            className={`border p-3 rounded w-full ${
-              errors.files ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {errors.files && (
-            <p className="text-red-500 text-sm">{errors.files}</p>
-          )}
-        </div>
-
         <div className="flex">
           <div className="mb-6 flex items-center mr-4">
             <input
@@ -264,7 +235,7 @@ export default function CreatePost() {
             isSubmitting ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {isSubmitting ? "Submitting..." : "Create Blog"}
+          {isSubmitting ? "Saving Data..." : "Next: Upload Banner Image"}
         </button>
       </form>
     </div>

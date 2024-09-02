@@ -1,3 +1,7 @@
+"use server";
+import { revalidatePath } from "next/cache";
+import { toast } from "react-toastify";
+
 export const fetchAllBlogs = async () => {
   try {
     const response = await fetch("https://blogs-23vc.onrender.com/", {
@@ -71,6 +75,7 @@ export async function createNewPost(formData, token) {
     });
 
     if (response.ok) {
+      revalidatePath("/");
       return { success: true };
     } else {
       const errorText = await response.text();
@@ -102,5 +107,35 @@ export const fetchAllForums = async () => {
   } catch (error) {
     console.error("Failed to fetch forums:", error);
     throw error;
+  }
+};
+
+// api/comments.js
+
+export const createComment = async (slug, comment, token) => {
+  if (!comment.trim()) return;
+
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/blogs/${slug}/comment`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ comment }),
+      }
+    );
+    const data = await response.json();
+
+    if (response.ok) {
+      revalidatePath(`/blogs/${slug}`);
+      return { success: true, data };
+    } else {
+      throw new Error(data.message || "Failed to add comment");
+    }
+  } catch (error) {
+    return { success: false, error: error.message };
   }
 };

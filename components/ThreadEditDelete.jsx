@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Modal from "./Modal";
 import dynamic from "next/dynamic";
 import { Changa_One } from "next/font/google";
+import { deleteThread } from "@/utils/actions";
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
 
@@ -28,30 +29,19 @@ const ThreadEditDelete = ({ params, data }) => {
     setModalContent(null);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (params, token) => {
     try {
-      const response = await fetch(
-        `https://blogs-23vc.onrender.com/api/forum/${params.slug}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${user.user.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
+      const response = await deleteThread(params, token);
+      if (response) {
         console.log("Post deleted successfully");
-        toast("Thread Deleted Successfully", { hideProgressBar: true });
+        toast("Thread Deleted ", { hideProgressBar: true });
         router.push("/discuss-forum");
       } else {
         throw new Error(`Failed to delete post: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error deleting post:", error);
+      console.log(error);
     }
-    closeModal();
   };
 
   const handleChange = (newValue) => {
@@ -119,7 +109,7 @@ const ThreadEditDelete = ({ params, data }) => {
                 Are you sure you want to delete this thread?
               </h2>
             </div>,
-            handleDelete
+            () => handleDelete(params.slug, user?.user.token)
           )
         }
         className="text-gray-500 flex hover:underline hover:text-red-500"

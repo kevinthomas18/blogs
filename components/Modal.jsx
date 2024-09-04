@@ -1,4 +1,5 @@
 import React from "react";
+import { IoIosClose } from "react-icons/io";
 
 const Modal = ({ isOpen, onClose, onConfirm, title, children }) => {
   if (!isOpen) return null;
@@ -16,13 +17,13 @@ const Modal = ({ isOpen, onClose, onConfirm, title, children }) => {
       onClick={handleOutsideClick}
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
     >
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl relative">
+      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-4xl relative">
         {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
         >
-          &times;
+          <IoIosClose className="text-2xl" />
         </button>
 
         <h2 className="text-xl font-semibold mb-4">{title}</h2>

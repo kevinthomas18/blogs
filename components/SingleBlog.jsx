@@ -56,6 +56,7 @@ const SingleBlog = ({ blog }) => {
 
       if (response.ok) {
         setIsModalOpen(false);
+
         toast.error("Blog deleted successfully!", { hideProgressBar: true });
         router.replace("/");
       } else {
@@ -105,7 +106,7 @@ const SingleBlog = ({ blog }) => {
     handleCloseSEODrawer();
   };
 
-  console.log(blog?.data);
+  //console.log(blog?.data);
 
   return (
     <>

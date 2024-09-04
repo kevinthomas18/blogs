@@ -7,7 +7,7 @@ import { useUser } from "@/components/UserContext";
 import { toast } from "react-toastify";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { CreateThread } from "@/utils/actions";
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
 
@@ -29,24 +29,13 @@ const DiscussionForum = ({ forums }) => {
 
   const handleCreateThread = async () => {
     try {
-      const response = await fetch(
-        "https://blogs-23vc.onrender.com/api/forum",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.user.token}`,
-          },
-          body: JSON.stringify({
-            title: newThreadTitle,
-            description: newThreadContent,
-          }),
-        }
+      const data = await CreateThread(
+        newThreadTitle,
+        newThreadContent,
+        user.user.token
       );
-      const data = await response.json();
-
       if (!data?.err) {
-        toast.success("Thread created");
+        toast.success("Thread created", { hideProgressBar: true });
         closeModal();
       } else {
         toast.error(data.err);

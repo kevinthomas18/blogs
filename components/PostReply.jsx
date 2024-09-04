@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import { useUser } from "./UserContext";
+import { createReply } from "@/utils/actions";
 
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
 
@@ -16,7 +17,21 @@ const PostReply = ({ threadId }) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleClick = async () => {
+  const handleClick = async (threadId, token, reply) => {
+    const response = await createReply(threadId, token, reply);
+    if (response) {
+      toast.success("Reply posted successfully!", {
+        position: "bottom-right",
+        hideProgressBar: true,
+      });
+      setReplyContent("");
+      closeModal();
+    } else {
+      toast.error("Failed to post reply");
+    }
+  };
+
+  const handleClicks = async () => {
     try {
       const response = await fetch(
         `https://blogs-23vc.onrender.com/api/forum/${threadId}/reply`,
@@ -57,7 +72,7 @@ const PostReply = ({ threadId }) => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        onConfirm={handleClick}
+        onConfirm={() => handleClick(threadId, user?.user.token, replyContent)}
         title="Write Reply"
       >
         <div className="mb-4">

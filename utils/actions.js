@@ -139,3 +139,90 @@ export const createComment = async (slug, comment, token) => {
     return { success: false, error: error.message };
   }
 };
+
+export const deleteReply = async (forumId, replyId, token) => {
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/api/forum/${forumId}/reply/${replyId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.ok) {
+      revalidatePath(`/discuss-forum/${forumId}`);
+    } else {
+      throw new Error("Failed to delete reply");
+    }
+    //console.log("forumID", forumId, "replyId", replyId, "token", token);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const CreateThread = async (newThreadTitle, newThreadContent, token) => {
+  console.log(newThreadTitle, newThreadContent, token);
+  try {
+    const response = await fetch("https://blogs-23vc.onrender.com/api/forum", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title: newThreadTitle,
+        description: newThreadContent,
+      }),
+    });
+    const data = await response.json();
+    revalidatePath("/discuss-forum");
+    return data;
+  } catch (error) {
+    console.error("Error creating thread:", error);
+  }
+};
+
+export const deleteThread = async (params, token) => {
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/api/forum/${params}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    revalidatePath("/discuss-forum");
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createReply = async (threadId, token, reply) => {
+  console.log("first", threadId, "second", token, "third", reply);
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/api/forum/${threadId}/reply`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ reply: reply }),
+      }
+    );
+    if (response.ok) {
+      revalidatePath(`/discuss-forum/${threadId}`);
+      return true;
+    } else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};

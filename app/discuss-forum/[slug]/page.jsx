@@ -1,8 +1,11 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import PostReply from "@/components/PostReply";
+import ReplyEditDelete from "@/components/ReplyEditDelete";
 import ThreadEditDelete from "@/components/ThreadEditDelete";
 import { format } from "date-fns";
 import { getServerSession } from "next-auth";
+import { CiEdit } from "react-icons/ci";
+import { MdDeleteOutline } from "react-icons/md";
 
 const page = async ({ params }) => {
   let data = {};
@@ -19,9 +22,9 @@ const page = async ({ params }) => {
     );
     data = await response.json();
 
-    console.log(data);
+    //console.log(data);
 
-    console.log(data.data.replies);
+    //console.log(data.data.replies, "replies");
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -80,9 +83,9 @@ const page = async ({ params }) => {
               return (
                 <div
                   key={reply.id}
-                  className="p-6 border border-gray-200 rounded-lg"
+                  className="p-6 border border-gray-200 rounded-lg "
                 >
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center mb-4 ">
                     <div className="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center mr-4 text-lg font-semibold">
                       {initial}
                     </div>
@@ -93,10 +96,18 @@ const page = async ({ params }) => {
                   <div className="text-sm text-gray-500 mb-4">
                     {format(new Date(reply.createdAt), "PPP p")}
                   </div>
-                  <div
-                    className="prose"
-                    dangerouslySetInnerHTML={{ __html: reply.reply }}
-                  ></div>
+                  <div className="relative">
+                    <div
+                      className="prose relative"
+                      dangerouslySetInnerHTML={{ __html: reply.reply }}
+                    ></div>
+                    {reply.user_id === session.user.id && (
+                      <ReplyEditDelete
+                        replyId={reply.id}
+                        forumId={params.slug}
+                      />
+                    )}
+                  </div>
                 </div>
               );
             })}

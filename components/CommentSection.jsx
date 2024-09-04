@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { CiHeart } from "react-icons/ci";
 import { AiOutlineDislike } from "react-icons/ai";
 import { AiOutlineLike } from "react-icons/ai";
-import { createComment } from "@/utils/actions"; // Import the function
+import { createComment } from "@/utils/actions";
 
 const CommentSection = ({ params, blog }) => {
   const user = useUser();
@@ -15,8 +15,6 @@ const CommentSection = ({ params, blog }) => {
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [reply, setReply] = useState("");
   const [comments, setComments] = useState(blog?.data.comments);
-
-  // Local state for comments
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -204,7 +202,7 @@ const CommentSection = ({ params, blog }) => {
                 <div
                   className="w-10 h-10 flex items-center justify-center rounded-full capitalize"
                   style={{
-                    backgroundColor: "blue", // Function to generate a background color
+                    backgroundColor: "blue",
                     color: "#fff",
                     fontWeight: "bold",
                     fontSize: "1.2rem",
@@ -258,19 +256,21 @@ const CommentSection = ({ params, blog }) => {
                         Reply
                       </span>
                     </button>
-                    <div className="absolute bottom-3 right-3">
-                      <button
-                        onClick={() =>
-                          handleCommentDelete(blog.data.id, comment.id)
-                        }
-                        className="relative group"
-                      >
-                        <MdDeleteOutline className="text-xl" />
-                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
-                          Delete
-                        </span>
-                      </button>
-                    </div>
+                    {comment?.user_id === userId && (
+                      <div className="absolute bottom-3 right-3">
+                        <button
+                          onClick={() =>
+                            handleCommentDelete(blog.data.id, comment.id)
+                          }
+                          className="relative group"
+                        >
+                          <MdDeleteOutline className="text-xl" />
+                          <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                            Delete
+                          </span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                   {showReplyInput && (
                     <div className="mt-4">

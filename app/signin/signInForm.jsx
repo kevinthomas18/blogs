@@ -11,9 +11,13 @@ export default function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // New state for loading
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading when form is submitted
+    setError(""); // Clear any previous error
+
     try {
       const res = await signIn("credentials", {
         email,
@@ -24,15 +28,19 @@ export default function SignInForm() {
       if (res.error) {
         setError("Invalid credentials");
         console.log("signin error", res.error);
+        setIsLoading(false); // Stop loading on error
         return;
       }
+
       toast("Logged In!", {
         theme: "colored",
       });
+
       router.replace("/");
     } catch (error) {
       console.log(error);
       setError("An unexpected error occurred. Please try again later.");
+      setIsLoading(false); // Stop loading on error
     }
   };
 
@@ -57,6 +65,7 @@ export default function SignInForm() {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={isLoading} // Disable input while loading
             />
           </div>
           <div className="mb-6">
@@ -73,6 +82,7 @@ export default function SignInForm() {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoading} // Disable input while loading
             />
           </div>
           {error && (
@@ -91,8 +101,10 @@ export default function SignInForm() {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200"
+            disabled={isLoading} // Disable button while loading
           >
-            Sign In
+            {isLoading ? "Signing in..." : "Sign In"}{" "}
+            {/* Change button text while loading */}
           </button>
         </form>
         <p className="mt-6 text-center text-gray-600">

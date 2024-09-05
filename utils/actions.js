@@ -226,3 +226,27 @@ export const createReply = async (threadId, token, reply) => {
     console.log(error);
   }
 };
+
+export const deleteBlog = async (id, token) => {
+  console.log(id, token, "testing...");
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/blogs/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      revalidatePath("/");
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("An error occurred while deleting the blog:", error.message);
+  }
+};

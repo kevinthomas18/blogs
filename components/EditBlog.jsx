@@ -83,9 +83,11 @@ export default function EditBlogPage({ blog }) {
 
     const response = await editBlog(formData, slug, session?.user?.token);
     if (response) {
+      setIsSubmitting(false);
       toast.success("Blog updated successfully", { hideProgressBar: true });
       router.push(`/blogs/${slug}`);
     } else {
+      setIsSubmitting(false);
       toast.error("something went wrong , please try again", {
         hideProgressBar: true,
       });

@@ -14,7 +14,10 @@ const page = () => {
 
   return (
     <div className="m-20">
-      <button className="capitalize" onClick={handleFetch}>
+      <button
+        className="capitalize text-2xl border py-3 px-6 border-gray-900 rounded-lg"
+        onClick={handleFetch}
+      >
         fetch
       </button>
     </div>

@@ -11,7 +11,7 @@ const SingleBlog = ({ blog }) => {
   const { user } = useUser();
   const params = useParams();
   const isAuthor = user?.id === blog?.data?.author;
-  console.log(blog);
+
   return (
     <>
       {isAuthor && <SideLinks />}
@@ -55,6 +55,7 @@ const SingleBlog = ({ blog }) => {
           );
         })}
 
+        <div dangerouslySetInnerHTML={{ __html: blog?.data.description }}></div>
         <h3 className="font-semibold">{blog?.data.bottom_description}</h3>
         <CommentSection params={params} blog={blog} />
       </div>

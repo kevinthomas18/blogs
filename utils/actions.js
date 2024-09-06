@@ -8,7 +8,7 @@ export const fetchAllBlogs = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      //next: { revalidate: 10 },
+      next: { revalidate: 120 },
     });
 
     if (!response.ok) {

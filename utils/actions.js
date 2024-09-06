@@ -248,7 +248,6 @@ export const deleteBlog = async (id, token) => {
 };
 
 export const editBlog = async (formData, slug, token) => {
-  console.log(formData);
   try {
     const response = await fetch(
       `https://blogs-23vc.onrender.com/blogs/${slug}`,
@@ -262,6 +261,7 @@ export const editBlog = async (formData, slug, token) => {
     );
     if (response.ok) {
       revalidatePath(`/blogs/${slug}`);
+      // revalidatePath(`/`);
       return true;
     }
   } catch (error) {

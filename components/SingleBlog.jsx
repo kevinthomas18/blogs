@@ -11,7 +11,7 @@ const SingleBlog = ({ blog }) => {
   const { user } = useUser();
   const params = useParams();
   const isAuthor = user?.id === blog?.data?.author;
-
+  console.log(blog);
   return (
     <>
       {isAuthor && <SideLinks />}
@@ -38,7 +38,10 @@ const SingleBlog = ({ blog }) => {
             </button>
           </div>
         </div>
-
+        <img
+          src={`https://blogs-23vc.onrender.com${blog?.data?.banner?.path}`}
+          alt="banner-image"
+        />
         <h2 className=" font-semibold mt-3 mb-10">
           {blog?.data.top_description}
         </h2>

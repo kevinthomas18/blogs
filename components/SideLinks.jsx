@@ -41,9 +41,9 @@ const SideLinks = () => {
       <div className="absolute flex flex-row space-y-2 top-40 left-10 md:flex-col md:space-x-2">
         <Link
           href={`/edit-blog/${params.slug}`}
-          className="text-gray-600 hover:text-orange-400 font-semibold flex items-center"
+          className="text-gray-600 hover:text-orange-400 font-semibold flex items-center ml-2"
         >
-          <CiEdit className="mx-2" />
+          <CiEdit className="mx-2 text-xl" />
           Edit
         </Link>
         <button

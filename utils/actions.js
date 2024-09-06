@@ -1,6 +1,5 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { toast } from "react-toastify";
 
 export const fetchAllBlogs = async () => {
   try {
@@ -8,9 +7,8 @@ export const fetchAllBlogs = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Optionally, you can pass 'revalidate' as part of fetch options (but it's not necessary in this case)
       },
-      next: { revalidate: 10 }, // Revalidate the data every 10 seconds
+      //next: { revalidate: 10 },
     });
 
     if (!response.ok) {
@@ -109,8 +107,6 @@ export const fetchAllForums = async () => {
     throw error;
   }
 };
-
-// api/comments.js
 
 export const createComment = async (slug, comment, token) => {
   if (!comment.trim()) return;
@@ -248,5 +244,28 @@ export const deleteBlog = async (id, token) => {
     }
   } catch (error) {
     console.error("An error occurred while deleting the blog:", error.message);
+  }
+};
+
+export const editBlog = async (formData, slug, token) => {
+  console.log(formData);
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/blogs/${slug}`,
+      {
+        method: "PUT",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.ok) {
+      revalidatePath(`/blogs/${slug}`);
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 };

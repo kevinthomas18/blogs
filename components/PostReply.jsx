@@ -31,36 +31,6 @@ const PostReply = ({ threadId }) => {
     }
   };
 
-  const handleClicks = async () => {
-    try {
-      const response = await fetch(
-        `https://blogs-23vc.onrender.com/api/forum/${threadId}/reply`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.user.token}`,
-          },
-          body: JSON.stringify({ reply: replyContent }),
-        }
-      );
-
-      if (response.ok) {
-        toast.success("Reply posted successfully!", {
-          position: "bottom-right",
-          hideProgressBar: true,
-        });
-        setReplyContent("");
-        closeModal();
-      } else {
-        const errorData = await response.json();
-        toast.error(`Failed to post reply: ${errorData.err}`);
-      }
-    } catch (error) {
-      toast.error(`An error occurred: ${error.message}`);
-    }
-  };
-
   return (
     <>
       <button

@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import SideLinks from "@/components/SideLinks";
+import { editBlog } from "@/utils/actions";
 
 // Dynamically import the Editor to avoid issues with SSR (Server-Side Rendering)
 const Editor = dynamic(() => import("@/components/Editor"), { ssr: false });
@@ -30,7 +31,7 @@ export default function EditBlogPage({ blog }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
-  console.log(blog, "static props");
+  //console.log(blog, "static props");
 
   const validateForm = () => {
     const newErrors = {};
@@ -63,11 +64,9 @@ export default function EditBlogPage({ blog }) {
     setSections(updatedSections);
   };
 
-  async function handleSubmit(ev) {
-    ev.preventDefault();
-
+  async function handleSubmit(e) {
+    e.preventDefault();
     if (!validateForm()) return;
-
     setIsSubmitting(true);
 
     const formData = new FormData();
@@ -82,30 +81,14 @@ export default function EditBlogPage({ blog }) {
       formData.set("image", files);
     }
 
-    try {
-      const response = await fetch(
-        `https://blogs-23vc.onrender.com/blogs/${slug}`,
-        {
-          method: "PUT",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${session?.user?.token}`,
-          },
-        }
-      );
-
-      const result = await response.json();
-
-      if (response.ok) {
-        toast.success("Blog updated successfully", { hideProgressBar: true });
-        router.push("/");
-      } else {
-        console.error("Update failed:", result.error);
-      }
-    } catch (error) {
-      console.error("An error occurred while updating the blog:", error);
-    } finally {
-      setIsSubmitting(false);
+    const response = await editBlog(formData, slug, session?.user?.token);
+    if (response) {
+      toast.success("Blog updated successfully", { hideProgressBar: true });
+      router.push(`/blogs/${slug}`);
+    } else {
+      toast.error("something went wrong , please try again", {
+        hideProgressBar: true,
+      });
     }
   }
 

@@ -272,3 +272,16 @@ export const editBlog = async (formData, slug, token) => {
     return false;
   }
 };
+
+export const menu = async () => {
+  try {
+    const response = await fetch(
+      "https://blogs-23vc.onrender.com/api/menu/maindesktop"
+    );
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

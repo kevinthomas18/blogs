@@ -6,7 +6,7 @@ import CommentSection from "./CommentSection";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsSave2 } from "react-icons/bs";
 import SideLinks from "./SideLinks";
-
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -16,12 +16,38 @@ const SingleBlog = ({ blog }) => {
   const params = useParams();
   const isAuthor = user?.id === blog?.data?.author;
   //console.log(blog);
+
+  // Custom Next Arrow Button
+  const NextArrow = ({ onClick }) => {
+    return (
+      <button
+        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full z-10"
+        onClick={onClick}
+      >
+        <FaArrowRight size={20} />
+      </button>
+    );
+  };
+
+  // Custom Prev Arrow Button
+  const PrevArrow = ({ onClick }) => {
+    return (
+      <button
+        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full z-10"
+        onClick={onClick}
+      >
+        <FaArrowLeft size={20} />
+      </button>
+    );
+  };
   const settings = {
     dots: true, // Show dots for navigation
     infinite: true,
     speed: 500,
     slidesToShow: 3, // Number of slides to show at once
     slidesToScroll: 1, // Number of slides to scroll at once
+    nextArrow: <NextArrow />, // Custom Next Arrow
+    prevArrow: <PrevArrow />, // Custom Prev Arrow
     responsive: [
       {
         breakpoint: 1024,

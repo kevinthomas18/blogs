@@ -1,15 +1,18 @@
 "use server";
 import { revalidatePath } from "next/cache";
 
-export const fetchAllBlogs = async () => {
+export const fetchAllBlogs = async (page) => {
   try {
-    const response = await fetch("https://blogs-23vc.onrender.com/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      next: { revalidate: 120 },
-    });
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com?page=${page}&limit=15`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: { revalidate: 120 },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);

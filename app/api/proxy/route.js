@@ -3,7 +3,8 @@ import axios from "axios";
 export async function GET(req) {
   try {
     const response = await axios.get(
-      "http://www.thehappyhomes.com/getresources.aspx"
+      "http://www.thehappyhomes.com/getresources.aspx?MaxCount=103&StartId=100"
+      // "http://www.thehappyhomes.com/getresources.aspx"
     );
     return new Response(JSON.stringify(response.data), {
       status: 200,

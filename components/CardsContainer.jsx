@@ -1,8 +1,9 @@
 import BlogCard from "./BlogCard";
 import { fetchAllBlogs } from "@/utils/actions";
+import LoadMore from "./LoadMore";
 
 const CardsContainer = async () => {
-  const blogs = await fetchAllBlogs();
+  const blogs = await fetchAllBlogs(1);
 
   return (
     <>
@@ -22,6 +23,7 @@ const CardsContainer = async () => {
           />
         ))}
       </div>
+      <LoadMore />
     </>
   );
 };

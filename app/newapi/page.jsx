@@ -1,5 +1,5 @@
 "use client";
-import { menu } from "@/utils/actions";
+import { getAllBlogSlugs, menu } from "@/utils/actions";
 import axios from "axios";
 import React from "react";
 
@@ -17,8 +17,13 @@ const page = () => {
     menu();
   };
 
+  const handleSlug = async () => {
+    const data = await getAllBlogSlugs();
+    console.log(data);
+  };
+
   return (
-    <div className="m-20 flex justify-between w-80">
+    <div className="m-20 flex justify-between w-[400px]">
       <button
         className="capitalize text-2xl border py-3 px-6 border-gray-900 rounded-lg"
         onClick={handleFetch}
@@ -30,6 +35,12 @@ const page = () => {
         onClick={handleGetMenu}
       >
         Menu
+      </button>
+      <button
+        className="capitalize text-2xl border py-3 px-6 border-gray-900 rounded-lg"
+        onClick={handleSlug}
+      >
+        slug
       </button>
     </div>
   );

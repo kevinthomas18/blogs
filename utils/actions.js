@@ -285,3 +285,28 @@ export const menu = async () => {
     console.log(error);
   }
 };
+
+export const getAllBlogSlugs = async () => {
+  try {
+    const response = await fetch(`https://blogs-23vc.onrender.com/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 120 },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    //return data;
+    return data.data.map((blog) => ({
+      slug: blog.id,
+    }));
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+    throw error;
+  }
+};

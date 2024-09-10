@@ -4,7 +4,7 @@ import { MdMiscellaneousServices } from "react-icons/md";
 
 const Services = async () => {
   const { data } = await getAllServices();
-  console.log(data);
+
   return (
     <div className="container mx-auto p-6 mt-20">
       <h1 className="text-3xl font-bold mb-6 flex items-center">

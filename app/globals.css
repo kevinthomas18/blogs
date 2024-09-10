@@ -23,3 +23,17 @@
   padding: 15px;
   box-sizing: border-box;
 }
+
+/* Divider between dropdown items */
+.border-b {
+  border-bottom: 1px solid #e5e7eb;
+  /* Light gray color */
+}
+
+.last\:border-b-0:last-child {
+  border-bottom: none;
+}
+
+.group-hover\:delay-1000 {
+  transition-delay: 1s;
+}

@@ -2,6 +2,7 @@ import { IoMdSearch } from "react-icons/io";
 import { GoBriefcase } from "react-icons/go";
 import Link from "next/link";
 import { getAllJobs } from "@/utils/actions";
+import { TbBuildingSkyscraper } from "react-icons/tb";
 
 const CareerPage = async () => {
   const jobs = await getAllJobs(); // Assuming the function fetches the data correctly
@@ -19,8 +20,14 @@ const CareerPage = async () => {
             key={job.id}
             className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow"
           >
-            <h2 className="text-xl font-semibold mb-2">{job.title}</h2>
-            <p className="text-gray-600 mb-4">{job.company_name}</p>
+            <div className="flex">
+              <GoBriefcase className="text-2xl mr-2" />
+              <h2 className="text-xl font-semibold mb-2">{job.title}</h2>
+            </div>
+            <div className="flex">
+              {/* <TbBuildingSkyscraper className="mr-2 text-2xl" /> */}
+              <p className="text-gray-600 mb-4">{job.company_name}</p>
+            </div>
             <p className="text-gray-500 mb-4">
               {job.description.substring(0, 100)}...
             </p>

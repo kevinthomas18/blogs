@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const Navbar = async () => {
   const menuItem = await menu();
-  console.log(menuItem);
+
   return (
     <nav className="flex justify-between mx-4 p-5 font-inter">
       <div className="flex items-center mr-4">

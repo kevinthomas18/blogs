@@ -353,3 +353,27 @@ export const getJobDetail = async (id) => {
     console.log(error);
   }
 };
+
+export const getAllServices = async () => {
+  try {
+    const response = await fetch(
+      "https://blogs-23vc.onrender.com/api/services",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: { revalidate: 2 },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

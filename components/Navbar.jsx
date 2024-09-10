@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { BiSolidOffer } from "react-icons/bi";
 import { FaPenToSquare } from "react-icons/fa6";
 import { menu } from "@/utils/actions";
@@ -11,12 +10,6 @@ const Navbar = async () => {
   return (
     <nav className="flex justify-between mx-4 p-5 font-inter">
       <div className="flex items-center mr-4">
-        {/* <div className="relative inline-block group">
-          <button className="bg-[#FFEEDF] px-4 py-2 flex items-center mr-8">
-            <GiHamburgerMenu className="mr-2" />
-            Menu
-          </button>
-        </div> */}
         <div className="hidden md:flex items-center">
           {menuItem?.data.map((item) => {
             return (

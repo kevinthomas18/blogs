@@ -3,23 +3,18 @@ import { getBlogDetail, getAllBlogSlugs } from "@/utils/actions";
 
 // This generates static paths based on the slugs
 export const generateStaticParams = async () => {
-  // Fetch all blog slugs
   const slugs = await getAllBlogSlugs();
 
-  // Return an array of params for each slug
   return slugs.map(({ slug }) => ({
     slug,
   }));
 };
 
-// Server-side component for fetching blog details based on the slug
 const SingleBlogPage = async ({ params }) => {
   const { slug } = params;
 
-  // Fetch blog details using the slug
   const blog = await getBlogDetail(slug);
 
-  // Pass the blog data to the client component
   return <SingleBlog blog={blog} />;
 };
 

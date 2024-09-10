@@ -1,5 +1,5 @@
 "use client";
-import { getAllBlogSlugs, menu } from "@/utils/actions";
+import { getAllBlogSlugs, getAllJobs, menu } from "@/utils/actions";
 import axios from "axios";
 import React from "react";
 
@@ -22,6 +22,11 @@ const page = () => {
     console.log(data);
   };
 
+  const handleCareer = async () => {
+    const { data } = await getAllJobs();
+    console.log(data);
+  };
+
   return (
     <div className="m-20 flex justify-between w-[400px]">
       <button
@@ -41,6 +46,12 @@ const page = () => {
         onClick={handleSlug}
       >
         slug
+      </button>
+      <button
+        className="capitalize text-2xl border py-3 px-6 border-gray-900 rounded-lg"
+        onClick={handleCareer}
+      >
+        career
       </button>
     </div>
   );

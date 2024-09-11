@@ -10,12 +10,13 @@ import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import Image from "next/image";
 
 const SingleBlog = ({ blog }) => {
   const { user } = useUser();
   const params = useParams();
   const isAuthor = user?.id === blog?.data?.author;
-  //console.log(blog);
+  console.log(blog?.data.description);
 
   // Custom Next Arrow Button
   const NextArrow = ({ onClick }) => {
@@ -122,7 +123,7 @@ const SingleBlog = ({ blog }) => {
                       <img
                         src={`http://www.thehappyhomes.com/attachments/Resources/${attachment.path}`}
                         alt="Attachment"
-                        className="w-full h-64 object-cover" // Fixed width & height with object cover
+                        className="w-full h-64 object-cover"
                       />
                     </div>
                   ))}
@@ -134,7 +135,7 @@ const SingleBlog = ({ blog }) => {
                       key={attachment.path}
                       src={`http://www.thehappyhomes.com/attachments/Resources/${attachment.path}`}
                       alt="Attachment"
-                      className="w-full h-64 object-cover" // Fixed size for non-slider images
+                      className="w-full h-64 object-cover"
                     />
                   ))}
                 </div>

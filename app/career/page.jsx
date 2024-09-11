@@ -5,7 +5,7 @@ import { getAllJobs } from "@/utils/actions";
 import { TbBuildingSkyscraper } from "react-icons/tb";
 
 const CareerPage = async () => {
-  const jobs = await getAllJobs(); // Assuming the function fetches the data correctly
+  const jobs = await getAllJobs(); 
 
   return (
     <div className="container mx-auto py-8 mt-20">

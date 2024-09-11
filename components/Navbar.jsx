@@ -24,7 +24,7 @@ const Navbar = async () => {
                   alt="icon"
                   height={24}
                   width={24}
-                  className="w-8 mr-2"
+                  className="w-8 h-8 mr-2"
                 />
                 {item.title}
 

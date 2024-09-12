@@ -7,7 +7,11 @@ import { toast } from "react-toastify";
 import { CiHeart } from "react-icons/ci";
 import { AiOutlineDislike } from "react-icons/ai";
 import { AiOutlineLike } from "react-icons/ai";
-import { createComment } from "@/utils/actions";
+import {
+  createComment,
+  createLikeComment,
+  removeLikeComment,
+} from "@/utils/actions";
 
 const CommentSection = ({ params, blog }) => {
   const user = useUser();
@@ -28,21 +32,11 @@ const CommentSection = ({ params, blog }) => {
     setShowReplyInput(!showReplyInput);
   };
 
-  const handleLike = async (id, blogId) => {
+  const handleLike = async (id, blogId, token = user.user.token) => {
     try {
-      const response = await fetch(
-        `https://blogs-23vc.onrender.com/blogs/${blogId}/comment/${id}/like`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${user.user.token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      console.log(data);
+      const response = await createLikeComment(id, blogId, token);
 
-      if (response.ok) {
+      if (response) {
         toast("Liked comment", {
           hideProgressBar: true,
           position: "bottom-right",
@@ -53,7 +47,6 @@ const CommentSection = ({ params, blog }) => {
           hideProgressBar: true,
           position: "bottom-right",
         });
-        console.log("not ok");
       }
     } catch (error) {
       return {
@@ -63,21 +56,11 @@ const CommentSection = ({ params, blog }) => {
     }
   };
 
-  const handleUnlike = async (id, blogId, likeId) => {
+  const handleUnlike = async (id, blogId, likeId, token = user.user.token) => {
     try {
-      const response = await fetch(
-        `https://blogs-23vc.onrender.com/blogs/${blogId}/comment/${id}/like/${likeId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${user.user.token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      console.log(data);
+      const response = await removeLikeComment(id, blogId, likeId, token);
 
-      if (response.ok) {
+      if (response) {
         toast("Unliked comment", {
           hideProgressBar: true,
           position: "bottom-right",
@@ -251,7 +234,7 @@ const CommentSection = ({ params, blog }) => {
                       onClick={handleReplyClick}
                       className="relative group"
                     >
-                      Relpy
+                      Reply
                       <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
                         Reply
                       </span>

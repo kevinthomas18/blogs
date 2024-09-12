@@ -363,7 +363,7 @@ export const getAllServices = async () => {
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: 2 },
+        next: { revalidate: 120 },
       }
     );
 
@@ -373,6 +373,48 @@ export const getAllServices = async () => {
 
     const data = await response.json();
     return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createLikeComment = async (id, blogId, token) => {
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/blogs/${blogId}/comment/${id}/like`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.ok) {
+      revalidatePath(`/blogs/${blogId}`);
+      return true;
+    } else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const removeLikeComment = async (id, blogId, likeId, token) => {
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/blogs/${blogId}/comment/${id}/like/${likeId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.ok) {
+      revalidatePath(`/blogs/${blogId}`);
+      return true;
+    } else return false;
   } catch (error) {
     console.log(error);
   }

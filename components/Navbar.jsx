@@ -6,12 +6,19 @@ import Image from "next/image";
 
 const Navbar = async () => {
   const menuItem = await menu();
-
+  console.log(menuItem);
   return (
     <nav className="flex justify-between mx-4 p-5 font-inter">
       {/* Main Menu */}
       <div className="flex items-center mr-4">
         <div className="hidden md:flex items-center">
+          <div>
+            <img
+              src={`https://blogs-23vc.onrender.com${menuItem?.icon[0].value}`}
+              alt="logo"
+              className="w-14 h-14 mr-5"
+            />
+          </div>
           {menuItem?.data.map((item) => (
             <div key={item.id} className="group relative">
               <Link

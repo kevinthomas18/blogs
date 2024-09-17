@@ -71,8 +71,8 @@ const SingleBlog = ({ blog }) => {
     <>
       {isAuthor && <SideLinks />}
 
-      <div className="px-3 md:px-14 lg:px-60 xl:px-80 py-20">
-        <div className="flex justify-between items-center">
+      <div className="px-3 md:px-14 lg:px-40 xl:px-60 2xl:px-80 py-20 ">
+        <div className="flex justify-between items-center  ">
           <div>
             <h1 className="text-2xl font-bold mt-3 mb-10">
               {blog?.data.title}
@@ -110,7 +110,10 @@ const SingleBlog = ({ blog }) => {
           );
         })}
 
-        <div dangerouslySetInnerHTML={{ __html: blog?.data.description }}></div>
+        <div
+          className="text-lg lg:text-xl leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: blog?.data.description }}
+        ></div>
         <h3 className="font-semibold">{blog?.data.bottom_description}</h3>
         <div className="mt-60">
           {blog?.attachments?.length ? (

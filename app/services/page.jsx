@@ -6,7 +6,7 @@ const Services = async () => {
   let services = [];
   try {
     const { data } = await getAllServices();
-    services = data || []; // Default to an empty array if data is null or undefined
+    services = data || [];
   } catch (error) {
     console.error("Failed to fetch services:", error);
   }

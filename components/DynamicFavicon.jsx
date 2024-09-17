@@ -8,12 +8,11 @@ export default function DynamicFavicon() {
   useEffect(() => {
     async function fetchFavicon() {
       try {
-        const response = await menu(); // Replace with your actual API
+        const response = await menu();
         const data = await response.icon[1];
         console.log(data);
         setFaviconUrl(`https://blogs-23vc.onrender.com${data.value}`);
-        console.log(faviconUrl);
-        // Assuming your API returns { faviconUrl: 'https://example.com/favicon.ico' }
+        //console.log(faviconUrl);
       } catch (error) {
         console.error("Error fetching favicon URL:", error);
       }

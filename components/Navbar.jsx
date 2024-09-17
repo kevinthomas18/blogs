@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const Navbar = async () => {
   const menuItem = await menu();
-  console.log(menuItem);
+  //console.log(menuItem);
   return (
     <nav className="flex justify-between mx-4 p-5 font-inter">
       {/* Main Menu */}
@@ -14,7 +14,7 @@ const Navbar = async () => {
         <div className="hidden md:flex items-center">
           <div>
             <img
-              src={`https://blogs-23vc.onrender.com${menuItem?.icon[0].value}`}
+              src={`https://blogs-23vc.onrender.com${menuItem?.icon[0]?.value}`}
               alt="logo"
               className="w-14 h-14 mr-5"
             />

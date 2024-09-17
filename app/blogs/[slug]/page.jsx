@@ -10,8 +10,6 @@ export const generateStaticParams = async () => {
   }));
 };
 
-
-
 const SingleBlogPage = async ({ params }) => {
   const { slug } = params;
 

@@ -12,6 +12,15 @@ const BlogCard = ({
 }) => {
   const router = useRouter();
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  };
+
   const handleClick = () => {
     router.push(`/blogs/${blogId}`);
   };
@@ -42,7 +51,7 @@ const BlogCard = ({
       </div>
       <div className="flex items-center px-8 py-5 text-xs font-extralight absolute bottom-0 right-0 ">
         <p className="mr-3">2 Min Read</p>
-        <p>{publish_date}</p>
+        <p>{formatDate(publish_date)}</p>
       </div>
     </div>
   );

@@ -110,6 +110,14 @@ const CommentSection = ({ params, blog }) => {
   };
 
   const handleCreateComment = async () => {
+    if (!user?.user?.token) {
+      toast.error("Please log in to comment", {
+        hideProgressBar: true,
+        position: "bottom-right",
+      });
+      return;
+    }
+
     if (!comment.trim()) return;
 
     const { success, data, error } = await createComment(

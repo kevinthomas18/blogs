@@ -39,11 +39,7 @@ const LoadMore = () => {
         ))}
       </div>
       <div className="flex justify-center items-center h-full mb-5 mt-3">
-        <div
-          ref={ref}
-          className="h-12 w-12"
-          //className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-500 border-solid  border-opacity-25"
-        ></div>
+        <div ref={ref} className="h-12 w-12"></div>
       </div>
     </>
   );

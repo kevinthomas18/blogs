@@ -124,7 +124,7 @@ const SingleBlog = ({ blog }) => {
                   {blog.attachments.map((attachment) => (
                     <div key={attachment.path} className="px-2">
                       <img
-                        src={`http://www.thehappyhomes.com/attachments/Resources/${attachment.path}`}
+                        src={`https://blogs-23vc.onrender.com${attachment.path}`}
                         alt="Attachment"
                         className="w-full h-64 object-cover"
                       />
@@ -136,7 +136,7 @@ const SingleBlog = ({ blog }) => {
                   {blog.attachments.map((attachment) => (
                     <img
                       key={attachment.path}
-                      src={`http://www.thehappyhomes.com/attachments/Resources/${attachment.path}`}
+                      src={`https://blogs-23vc.onrender.com${attachment.path}`}
                       alt="Attachment"
                       className="w-full h-64 object-cover"
                     />

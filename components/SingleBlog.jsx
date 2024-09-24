@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@/components/UserContext";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import CommentSection from "./CommentSection";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsSave2 } from "react-icons/bs";
@@ -16,7 +16,6 @@ const SingleBlog = ({ blog }) => {
   const { user } = useUser();
   const params = useParams();
   const isAuthor = user?.id === blog?.data?.author;
-  console.log(blog?.data.description);
 
   // Custom Next Arrow Button
   const NextArrow = ({ onClick }) => {
@@ -75,7 +74,7 @@ const SingleBlog = ({ blog }) => {
         <div className="flex justify-between items-center  ">
           <div>
             <h1 className="text-2xl font-bold mt-3 mb-10">
-              {blog?.data.title}
+              {blog?.data?.title}
             </h1>
           </div>
           {/* <div className="relative flex items-center">
@@ -98,10 +97,10 @@ const SingleBlog = ({ blog }) => {
           alt="banner-image"
         /> */}
         <h2 className=" font-semibold mt-3 mb-10">
-          {blog?.data.top_description}
+          {blog?.data?.top_description}
         </h2>
 
-        {blog?.data.sections.map((section) => {
+        {blog?.data?.sections.map((section) => {
           return (
             <div key={section.heading} className="mt-5">
               <h3 className="font-bold mb-3">{section.heading}</h3>
@@ -112,9 +111,9 @@ const SingleBlog = ({ blog }) => {
 
         <div
           className="text-lg lg:text-xl leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: blog?.data.description }}
+          dangerouslySetInnerHTML={{ __html: blog?.data?.description }}
         ></div>
-        <h3 className="font-semibold">{blog?.data.bottom_description}</h3>
+        <h3 className="font-semibold">{blog?.data?.bottom_description}</h3>
         <div className="mt-60">
           {blog?.attachments?.length ? (
             <>

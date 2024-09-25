@@ -17,7 +17,7 @@ const SingleJob = async ({ params }) => {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-6 ">
         <h1 className="text-3xl font-bold mb-2">{title}</h1>
         <p className="text-gray-600 mb-4">{company_name}</p>
         <p className="text-gray-500 mb-4">Salary: ${salary}</p>

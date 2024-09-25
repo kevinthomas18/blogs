@@ -12,13 +12,13 @@ const Navbar = async () => {
       {/* Main Menu */}
       <div className="flex items-center mr-4">
         <div className="hidden md:flex items-center">
-          <div>
+          <Link href={"/"}>
             <img
               src={`https://blogs-23vc.onrender.com${menuItem?.icon[0]?.value}`}
               alt="logo"
               className="w-14 h-14 mr-5"
             />
-          </div>
+          </Link>
           {menuItem?.data.map((item) => (
             <div key={item.id} className="group relative">
               <Link

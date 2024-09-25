@@ -429,3 +429,31 @@ export const removeLikeComment = async (id, blogId, likeId, token) => {
     console.log(error);
   }
 };
+
+export const createCommentReply = async (blogId, reply, token, commentId) => {
+  //console.log(blogId, reply, token, commentId);
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/blogs/${blogId}/comment/${commentId}/reply`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ reply: reply }),
+      }
+    );
+    if (response.ok) {
+      revalidatePath(`/blogs/${blogId}`);
+      return true;
+    } else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteCommentReply = async (replyId) => {
+  console.log(replyId);
+  return false;
+};

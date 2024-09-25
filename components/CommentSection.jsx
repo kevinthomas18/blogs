@@ -9,7 +9,10 @@ import { AiOutlineDislike } from "react-icons/ai";
 import { AiOutlineLike } from "react-icons/ai";
 import {
   createComment,
+  createCommentReply,
   createLikeComment,
+  createReply,
+  deleteCommentReply,
   removeLikeComment,
 } from "@/utils/actions";
 
@@ -18,7 +21,9 @@ const CommentSection = ({ params, blog }) => {
   const [comment, setComment] = useState("");
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [reply, setReply] = useState("");
-  const [comments, setComments] = useState(blog?.data.comments);
+  const [comments, setComments] = useState(blog?.data?.comments);
+
+  console.log(comments);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -109,6 +114,21 @@ const CommentSection = ({ params, blog }) => {
     }
   };
 
+  const handleReplyDelete = async (replyId) => {
+    const response = await deleteCommentReply(replyId);
+    if (response) {
+      toast("Reply deleted successfully!", {
+        hideProgressBar: true,
+        position: "bottom-right",
+      });
+    } else {
+      toast.error("Reply delete failed", {
+        hideProgressBar: true,
+        position: "bottom-right",
+      });
+    }
+  };
+
   const handleCreateComment = async () => {
     if (!user?.user?.token) {
       toast.error("Please log in to comment", {
@@ -136,6 +156,34 @@ const CommentSection = ({ params, blog }) => {
       setComments((prevComments) => [...prevComments, data.comment]); // Assuming `data.comment` contains the new comment
     } else {
       toast.error(error || "Failed to add comment", {
+        hideProgressBar: true,
+        position: "bottom-right",
+      });
+    }
+  };
+
+  const handleCreateReply = async (commentId) => {
+    if (!user?.user?.token) {
+      toast.error("Please log in to reply", {
+        hideProgressBar: true,
+        position: "bottom-right",
+      });
+      return;
+    }
+    if (!reply.trim()) return;
+    const res = await createCommentReply(
+      params.slug,
+      reply,
+      user.user.token,
+      commentId
+    );
+    if (res) {
+      toast("reply added", {
+        hideProgressBar: true,
+        position: "bottom-right",
+      });
+    } else {
+      toast.error(error || "Failed to add reply", {
         hideProgressBar: true,
         position: "bottom-right",
       });
@@ -170,7 +218,7 @@ const CommentSection = ({ params, blog }) => {
       {/* Existing Comments Section */}
       <div>
         {comments?.map((comment) => {
-          // Validate the createdAt field
+          // Time ago for comments
           const timeAgo = comment?.createdAt
             ? formatDistanceToNow(new Date(comment.createdAt), {
                 addSuffix: true,
@@ -181,9 +229,8 @@ const CommentSection = ({ params, blog }) => {
           const isLiked = comment?.likes.some(
             (like) => like.user_id === userId
           );
-
           const likeId = comment?.likes?.find(
-            (like) => like.user_id == user?.user?.id
+            (like) => like.user_id === user?.user?.id
           )?.id;
 
           return (
@@ -231,7 +278,6 @@ const CommentSection = ({ params, blog }) => {
                         </span>
                       </button>
                     )}
-                    {/* Display likes count only if there are 1 or more likes */}
                     {comment?.likes?.length > 0 && (
                       <span className="text-red-500 flex justify-center items-center">
                         <CiHeart className="text-xl mr-1" />{" "}
@@ -248,19 +294,17 @@ const CommentSection = ({ params, blog }) => {
                       </span>
                     </button>
                     {comment?.user_id === userId && (
-                      <div className="absolute bottom-3 right-3">
-                        <button
-                          onClick={() =>
-                            handleCommentDelete(blog.data.id, comment.id)
-                          }
-                          className="relative group"
-                        >
-                          <MdDeleteOutline className="text-xl" />
-                          <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
-                            Delete
-                          </span>
-                        </button>
-                      </div>
+                      <button
+                        onClick={() =>
+                          handleCommentDelete(blog.data.id, comment.id)
+                        }
+                        className="relative group"
+                      >
+                        <MdDeleteOutline className="text-xl " />
+                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                          Delete
+                        </span>
+                      </button>
                     )}
                   </div>
                   {showReplyInput && (
@@ -273,8 +317,8 @@ const CommentSection = ({ params, blog }) => {
                       ></textarea>
                       <button
                         onClick={() => {
-                          // Handle reply logic
                           setReply("");
+                          handleCreateReply(comment.id);
                           setShowReplyInput(false);
                         }}
                         className="bg-indigo-600 text-white px-4 py-2 mt-2 rounded-lg hover:bg-indigo-700 transition duration-300"
@@ -284,6 +328,66 @@ const CommentSection = ({ params, blog }) => {
                     </div>
                   )}
                   <p className="text-gray-400 text-xs mt-1">{timeAgo}</p>
+
+                  {comment?.comment_replies.length > 0 &&
+                    comment?.comment_replies.map((reply) => {
+                      // Time ago for replies
+                      const replyTimeAgo = reply?.createdAt
+                        ? formatDistanceToNow(new Date(reply.createdAt), {
+                            addSuffix: true,
+                          })
+                        : "Just now";
+
+                      return (
+                        <div key={reply.id} className="ml-10 mt-4 relative">
+                          {/* Reply container */}
+                          <div className="flex items-start space-x-4 p-3 bg-gray-50 rounded-lg">
+                            {/* Avatar with First Letter */}
+                            <div
+                              className="w-8 h-8 flex items-center justify-center rounded-full capitalize"
+                              style={{
+                                backgroundColor: "magenta",
+                                color: "#fff",
+                                fontWeight: "bold",
+                                fontSize: "1rem",
+                              }}
+                            >
+                              {reply.replied_by.name.charAt(0)}
+                            </div>
+
+                            <div className="flex-1">
+                              {/* Replier's Name */}
+                              <p className="text-gray-800 font-semibold capitalize">
+                                {reply.replied_by.name}
+                              </p>
+                              {/* Reply Content */}
+                              <p className="text-gray-600 text-sm">
+                                {reply.reply}
+                              </p>
+                              {/* Time ago for replies */}
+                              <p className="text-gray-400 text-xs mt-1">
+                                {replyTimeAgo}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Delete Button - Only show if the reply belongs to the current user */}
+                          {userId === reply.user_id && (
+                            <div className="absolute bottom-2 right-2">
+                              <button
+                                onClick={() => handleReplyDelete(reply.id)}
+                                className="relative group"
+                              >
+                                <MdDeleteOutline className="text-xl text-gray-500" />
+                                <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex text-xs bg-gray-700 text-white rounded px-2 py-1">
+                                  Delete
+                                </span>
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>

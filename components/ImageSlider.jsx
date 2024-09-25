@@ -33,25 +33,27 @@ function ImageSlider({ banners }) {
   ];
 
   return (
-    <div className="w-full h-[80dvh] relative mx-auto mb-[5%]">
+    <div className="w-full h-[80dvh] relative mx-auto rounded-sm max-md:rounded-none overflow-hidden shadow-sm shadow-black mb-[5%]">
       <Slider
+      draggable
+      fade
         {...settings}
-        // prevArrow={ <IoIosArrowDropleftCircle size={50}  color="black" title="Arrow Left Icon"/>}
-        // nextArrow={<IoIosArrowDroprightCircle color="black" size={50} title="Arrow Right Icon" />}
+        prevArrow={<IoIosArrowDropleftCircle className="absolute left-5 top-1/2 transform -translate-y-1/2 z-10" size={50} />}
+        nextArrow={<IoIosArrowDroprightCircle className="absolute right-5 top-1/2 transform -translate-y-1/2 z-10" size={50} />}
       >
         {banners.map((banner) => (
-          <div key={banner.id} className="relative rounded-xl overflow-hidden">
-            <div className="w-full h-[80dvh]  ">
+          <div key={banner.id} className="relative ">
+            <div className="w-full h-[80dvh] max-md:h-[50dvh]  ">
               <Link href={`/blogs/${banner.id}`}>
                 <Image
                   src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${banner?.banner?.path}`}
                   alt={`Slide ${banner.title}`}
                   layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
+                  
+                  className="rounded-sm max-md:rounded-none"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4 text-white">
-                  <h2 className="text-xl font-bold">{banner.title}</h2>
+                  <h2 className="text-xl max-md:text-sm font-bold">{banner.title}</h2>
                 </div>
               </Link>
             </div>

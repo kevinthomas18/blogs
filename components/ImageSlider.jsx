@@ -33,7 +33,7 @@ function ImageSlider({ banners }) {
   ];
 
   return (
-    <div className="w-[90%] h-[80dvh] relative mx-auto mb-[5%]">
+    <div className="w-full h-[80dvh] relative mx-auto mb-[5%]">
       <Slider
         {...settings}
         // prevArrow={ <IoIosArrowDropleftCircle size={50}  color="black" title="Arrow Left Icon"/>}
@@ -41,7 +41,7 @@ function ImageSlider({ banners }) {
       >
         {banners.map((banner) => (
           <div key={banner.id} className="relative rounded-xl overflow-hidden">
-            <div className="w-full h-[35rem]  ">
+            <div className="w-full h-[80dvh]  ">
               <Link href={`/blogs/${banner.id}`}>
                 <Image
                   src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${banner?.banner?.path}`}

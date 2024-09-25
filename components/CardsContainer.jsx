@@ -1,14 +1,16 @@
 import BlogCard from "./BlogCard";
 import { fetchAllBlogs } from "@/utils/actions";
 import LoadMore from "./LoadMore";
+import { heading } from "@/app/font";
 
-const CardsContainer = async () => {
-  const blogs = await fetchAllBlogs(1);
+const CardsContainer = async ({blogs,title}) => {
+
 
   return (
     <>
+    <h1 className={`text-3xl  text-gray-600 px-5 ${heading.className}`}>{title}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 p-5">
-        {blogs?.data?.map((blog) => (
+        {blogs?.map((blog) => (
           <BlogCard
             key={blog.id}
             blogId={blog.id}
@@ -23,7 +25,7 @@ const CardsContainer = async () => {
           />
         ))}
       </div>
-      <LoadMore />
+      {/* <LoadMore /> */}
     </>
   );
 };

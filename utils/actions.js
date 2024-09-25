@@ -4,13 +4,13 @@ import { revalidatePath } from "next/cache";
 export const fetchAllBlogs = async (page) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com?page=${page}&limit=15`,
+      `https://blogs-23vc.onrender.com`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        next: { revalidate: 120 },
+        next: { revalidate: 10 },
       }
     );
 
@@ -293,7 +293,7 @@ export const getAllBlogSlugs = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      next: { revalidate: 120 },
+      next: { revalidate: 10 },
     });
 
     if (!response.ok) {
@@ -301,10 +301,20 @@ export const getAllBlogSlugs = async () => {
     }
 
     const data = await response.json();
+    console.log(data);
     //return data;
-    return data.data.map((blog) => ({
+    let slug=[]
+    slug=data.banner.map((blog) => ({
       slug: blog.id,
     }));
+    slug=[...slug,...data.featured.map((blog) => ({
+      slug: blog.id,
+    }))]
+    slug=[...slug,...data.standard.map((blog) => ({
+      slug: blog.id,
+    }))]
+    console.log(slug);
+    return slug
   } catch (error) {
     console.error("Failed to fetch blogs:", error);
     throw error;

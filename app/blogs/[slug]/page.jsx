@@ -14,6 +14,7 @@ const SingleBlogPage = async ({ params }) => {
   const { slug } = params;
 
   const blog = await getBlogDetail(slug);
+  console.log(blog);
 
   if (!blog) {
     return {
@@ -21,7 +22,11 @@ const SingleBlogPage = async ({ params }) => {
     };
   }
 
-  return <SingleBlog blog={blog} />;
+  return (
+  <>
+  <SingleBlog blog={blog} />
+  </>
+)
 };
 
 export default SingleBlogPage;

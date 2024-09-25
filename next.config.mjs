@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images:{
+        remotePatterns:[{
+            hostname:'blogs-23vc.onrender.com',
+            protocol:'https',
+        }]
+    }
+};
 
 export default nextConfig;

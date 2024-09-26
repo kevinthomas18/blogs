@@ -68,3 +68,7 @@ h6 {
   font-size: 0.875rem; /* 14px */
   font-weight: 400; /* Normal */
 }
+
+ul{
+  list-style-type: circle;
+}

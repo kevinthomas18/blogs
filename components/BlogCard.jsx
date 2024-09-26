@@ -35,8 +35,8 @@ const BlogCard = ({
       onClick={handleClick}
     >
       <div>
-        <img
-          src={bannerImage}
+        <Image
+          src={bannerImage.includes("undefined") ? "https://liftlearning.com/wp-content/uploads/2020/09/default-image.png" : bannerImage}
           className="w-full h-48 object-cover rounded-t-lg"
           alt="blog-image"
           width={50}

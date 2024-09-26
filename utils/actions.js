@@ -45,6 +45,20 @@ export const fetchAllBlogs = async (page) => {
 //     throw error;
 //   }
 // };
+
+export const getContactDetails=async()=>{
+  try {
+    const response=await fetch(`https://blogs-23vc.onrender.com/contact`,{
+      next:{
+        revalidate:10
+      }
+    });
+    return response.json();
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const getBlogDetail = async (slug) => {
   try {
     const response = await fetch(`https://blogs-23vc.onrender.com/${slug}`, {

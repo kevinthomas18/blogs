@@ -37,3 +37,34 @@
 .group-hover\:delay-1000 {
   transition-delay: 1s;
 }
+
+
+h1 {
+  font-size: 2rem; /* 32px */
+  font-weight: 700; /* Bold */
+}
+
+h2 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 600; /* Semi-bold */
+}
+
+h3 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 500; /* Medium */
+}
+
+h4 {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 500; /* Medium */
+}
+
+h5 {
+  font-size: 1rem; /* 16px */
+  font-weight: 400; /* Normal */
+}
+
+h6 {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 400; /* Normal */
+}

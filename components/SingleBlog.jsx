@@ -96,9 +96,9 @@ const SingleBlog = ({ blog }) => {
           src={`https://blogs-23vc.onrender.com${blog?.data?.banner?.path}`}
           alt="banner-image"
         />
-        <h2 className=" font-semibold mt-3 mb-10">
-          {blog?.data?.top_description}
-        </h2>
+        <div dangerouslySetInnerHTML={{__html:blog?.data?.top_description}} className=" font-semibold mt-3 mb-10">
+          
+        </div>
 
         {blog?.data?.sections.map((section) => {
           return (
@@ -113,7 +113,7 @@ const SingleBlog = ({ blog }) => {
           className="text-lg lg:text-xl leading-relaxed"
           dangerouslySetInnerHTML={{ __html: blog?.data?.description }}
         ></div>
-        <h3 className="font-semibold">{blog?.data?.bottom_description}</h3>
+        <div dangerouslySetInnerHTML={{__html:blog?.data?.bottom_description}} className="font-semibold"></div>
         <div className="mt-60">
           {blog?.attachments?.length ? (
             <>

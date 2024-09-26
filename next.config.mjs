@@ -4,6 +4,9 @@ const nextConfig = {
         remotePatterns:[{
             hostname:'blogs-23vc.onrender.com',
             protocol:'https',
+        },{
+            hostname:'cdni.iconscout.com',
+            protocol:'https'
         }]
     }
 };

@@ -16,9 +16,7 @@ const CardsContainer = async ({blogs,title}) => {
             blogId={blog.id}
             title={blog.title}
             shortDescription={
-              blog.top_description == null
-                ? blog.short_description
-                : blog.top_description
+               blog.short_description
             }
             publish_date={blog.publish_date}
             bannerImage={`https://blogs-23vc.onrender.com${blog.banner?.path}`}

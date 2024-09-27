@@ -25,6 +25,30 @@ export const fetchAllBlogs = async (page) => {
   }
 };
 
+export const allBlogs = async () => {
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/allblogs`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: { revalidate: 10 },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+    throw error;
+  }
+};
+
 // export const fetchAllBlogs = async () => {
 //   try {
 //     const response = await fetch("https://blogs-23vc.onrender.com/", {

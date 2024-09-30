@@ -3,16 +3,13 @@ import { revalidatePath } from "next/cache";
 
 export const fetchAllBlogs = async (page) => {
   try {
-    const response = await fetch(
-      `https://blogs-23vc.onrender.com`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        next: { revalidate: 10 },
-      }
-    );
+    const response = await fetch(`https://blogs-23vc.onrender.com`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 10 },
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -27,16 +24,13 @@ export const fetchAllBlogs = async (page) => {
 
 export const allBlogs = async () => {
   try {
-    const response = await fetch(
-      `https://blogs-23vc.onrender.com/allblogs`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        next: { revalidate: 10 },
-      }
-    );
+    const response = await fetch(`https://blogs-23vc.onrender.com/allblogs`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 10 },
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -70,18 +64,49 @@ export const allBlogs = async () => {
 //   }
 // };
 
-export const getContactDetails=async()=>{
+export const getContactDetails = async () => {
   try {
-    const response=await fetch(`https://blogs-23vc.onrender.com/contact`,{
-      next:{
-        revalidate:10
-      }
+    const response = await fetch(`https://blogs-23vc.onrender.com/contact`, {
+      next: {
+        revalidate: 10,
+      },
     });
     return response.json();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
+
+export const getAllCategory = async () => {
+  try {
+    const response = await fetch("https://blogs-23vc.onrender.com/category", {
+      next: {
+        revalidate: 10,
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCategoryBasedBlogs = async (id,slug) => {
+  try {
+    const response = await fetch(
+      `https://blogs-23vc.onrender.com/category/${id}/${slug}`,
+      {
+        next: {
+          revalidate: 10,
+        },
+      }
+    );
+
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getBlogDetail = async (slug) => {
   try {
@@ -341,18 +366,24 @@ export const getAllBlogSlugs = async () => {
     const data = await response.json();
     console.log(data);
     //return data;
-    let slug=[]
-    slug=data.banner.map((blog) => ({
+    let slug = [];
+    slug = data.banner.map((blog) => ({
       slug: blog.id,
     }));
-    slug=[...slug,...data.featured.map((blog) => ({
-      slug: blog.id,
-    }))]
-    slug=[...slug,...data.standard.map((blog) => ({
-      slug: blog.id,
-    }))]
+    slug = [
+      ...slug,
+      ...data.featured.map((blog) => ({
+        slug: blog.id,
+      })),
+    ];
+    slug = [
+      ...slug,
+      ...data.standard.map((blog) => ({
+        slug: blog.id,
+      })),
+    ];
     console.log(slug);
-    return slug
+    return slug;
   } catch (error) {
     console.error("Failed to fetch blogs:", error);
     throw error;

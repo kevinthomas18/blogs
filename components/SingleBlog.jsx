@@ -11,6 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Image from "next/image";
+import CategorySection from "./CategorySection";
 
 const SingleBlog = ({ blog }) => {
   const { user } = useUser();
@@ -96,10 +97,10 @@ const SingleBlog = ({ blog }) => {
           src={`https://blogs-23vc.onrender.com${blog?.data?.banner?.path}`}
           alt="banner-image"
         />
-        <div dangerouslySetInnerHTML={{__html:blog?.data?.top_description}} className=" font-semibold mt-3 mb-10">
-          
-        </div>
-
+        <div
+          dangerouslySetInnerHTML={{ __html: blog?.data?.top_description }}
+          className=" font-semibold mt-3 mb-10"
+        ></div>
         {blog?.data?.sections.map((section) => {
           return (
             <div key={section.heading} className="mt-5">
@@ -113,40 +114,46 @@ const SingleBlog = ({ blog }) => {
           className="text-lg lg:text-xl leading-relaxed"
           dangerouslySetInnerHTML={{ __html: blog?.data?.description }}
         ></div>
-        <div dangerouslySetInnerHTML={{__html:blog?.data?.bottom_description}} className="font-semibold"></div>
-        <div className="mt-60">
-          {blog?.attachments?.length ? (
-            <>
-              <h2 className="text-lg font-semibold mb-4">Attachments</h2>
-              {blog.attachments.length > 3 ? (
-                <Slider {...settings}>
-                  {blog.attachments.map((attachment) => (
-                    <div key={attachment.path} className="px-2">
+        <div
+          dangerouslySetInnerHTML={{ __html: blog?.data?.bottom_description }}
+          className="font-semibold"
+        ></div>
+        {blog.attachments?.length > 0 && (
+          <div className="mt-60">
+            {blog?.attachments?.length ? (
+              <>
+                <h2 className="text-lg font-semibold mb-4">Attachments</h2>
+                {blog.attachments.length > 3 ? (
+                  <Slider {...settings}>
+                    {blog.attachments.map((attachment) => (
+                      <div key={attachment.path} className="px-2">
+                        <img
+                          src={`https://blogs-23vc.onrender.com${attachment.path}`}
+                          alt="Attachment"
+                          className="w-full h-64 object-cover"
+                        />
+                      </div>
+                    ))}
+                  </Slider>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {blog.attachments.map((attachment) => (
                       <img
+                        key={attachment.path}
                         src={`https://blogs-23vc.onrender.com${attachment.path}`}
                         alt="Attachment"
                         className="w-full h-64 object-cover"
                       />
-                    </div>
-                  ))}
-                </Slider>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                  {blog.attachments.map((attachment) => (
-                    <img
-                      key={attachment.path}
-                      src={`https://blogs-23vc.onrender.com${attachment.path}`}
-                      alt="Attachment"
-                      className="w-full h-64 object-cover"
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            <></>
-          )}
-        </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+        )}
+        <CategorySection categories={blog.data.blog_categories} />
         <CommentSection params={params} blog={blog} />
       </div>
     </>

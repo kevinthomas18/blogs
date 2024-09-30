@@ -2,6 +2,8 @@ import SingleBlog from "@/components/SingleBlog";
 import { getBlogDetail, getAllBlogSlugs } from "@/utils/actions";
 
 // Pre-generate static params (like slugs) at build time
+
+export const dynamicParams=true
 export const generateStaticParams = async () => {
   const slugs = await getAllBlogSlugs();
 
@@ -10,11 +12,21 @@ export const generateStaticParams = async () => {
   }));
 };
 
+
+export const generateMetadata=async({params})=>{
+  const blog = await getBlogDetail(params.slug);
+  console.log({blog,id:params.slug});
+  return {
+    title:blog.title,
+    description:blog.short_description
+  }
+}
+
+
 const SingleBlogPage = async ({ params }) => {
   const { slug } = params;
 
   const blog = await getBlogDetail(slug);
-  console.log(blog);
 
   if (!blog) {
     return {

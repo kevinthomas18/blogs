@@ -23,8 +23,9 @@ function ImageSlider({ banners }) {
     autoplaySpeed: 3000,
   };
 
-  console.log(banners[0].banner.path);
-  console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
+  // console.log(banners[0].banner.path);
+  // console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
+  console.log(banners);
 
   const images = [
     "/path/to/image1.jpg",
@@ -44,7 +45,7 @@ function ImageSlider({ banners }) {
         {banners.map((banner) => (
           <div key={banner.id} className="relative ">
             <div className="w-full h-[80dvh] max-md:h-[50dvh]  ">
-              <Link href={`/blogs/${banner.id}`}>
+              <Link href={`/resources/${banner.id}-${banner.slug}`}>
                 <Image
                   src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${banner?.banner?.path}`}
                   alt={`Slide ${banner.title}`}

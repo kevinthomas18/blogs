@@ -153,7 +153,7 @@ const SingleBlog = ({ blog }) => {
             )}
           </div>
         )}
-        <CategorySection categories={blog.data.blog_categories} />
+        <CategorySection categories={blog.data?.blog_categories} />
         <CommentSection params={params} blog={blog} />
       </div>
     </>

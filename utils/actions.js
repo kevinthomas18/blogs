@@ -91,10 +91,10 @@ export const getAllCategory = async () => {
   }
 };
 
-export const getCategoryBasedBlogs = async (id,slug) => {
+export const getCategoryBasedBlogs = async (id) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/category/${id}/${slug}`,
+      `https://blogs-23vc.onrender.com/category/${id}`,
       {
         next: {
           revalidate: 10,

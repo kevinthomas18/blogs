@@ -6,7 +6,7 @@ async function Blogs() {
   const blogs = await allBlogs();
   return (
     <>
-      <CardsContainer blogs={blogs.data} title="All Blogs" />
+      <CardsContainer blogs={blogs.data} title="All Resources" />
     </>
   );
 }

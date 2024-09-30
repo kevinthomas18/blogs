@@ -15,11 +15,12 @@ const CardsContainer = async ({blogs,title}) => {
             key={blog.id}
             blogId={blog.id}
             title={blog.title}
+            slug={blog.slug}
             shortDescription={
                blog.short_description
             }
             publish_date={blog.publish_date}
-            bannerImage={`https://blogs-23vc.onrender.com${blog.banner?.path}`}
+            bannerImage={ blog.banner?.path!==undefined ? `https://blogs-23vc.onrender.com${blog.banner?.path}`:`https://liftlearning.com/wp-content/uploads/2020/09/default-image.png`}
           />
         ))}
       </div>

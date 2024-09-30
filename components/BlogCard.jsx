@@ -9,6 +9,7 @@ const BlogCard = ({
   shortDescription,
   bannerImage,
   publish_date,
+  slug
 }) => {
   const router = useRouter();
 
@@ -22,7 +23,7 @@ const BlogCard = ({
   };
 
   const handleClick = () => {
-    router.push(`/blogs/${blogId}`);
+    router.push(`/resources/${blogId}-${slug}`);
   };
   //console.log(bannerImage);
   if (bannerImage === "https://blogs-23vc.onrender.comundefined") {

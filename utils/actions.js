@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 
 export const fetchAllBlogs = async (page) => {
   try {
-    const response = await fetch(`https://blogs-23vc.onrender.com`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export const fetchAllBlogs = async (page) => {
 
 export const allBlogs = async () => {
   try {
-    const response = await fetch(`https://blogs-23vc.onrender.com/allblogs`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/allblogs`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export const allBlogs = async () => {
 
 export const getContactDetails = async () => {
   try {
-    const response = await fetch(`https://blogs-23vc.onrender.com/contact`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact`, {
       next: {
         revalidate: 10,
       },
@@ -79,7 +79,7 @@ export const getContactDetails = async () => {
 
 export const getAllCategory = async () => {
   try {
-    const response = await fetch("https://blogs-23vc.onrender.com/category", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/category`, {
       next: {
         revalidate: 10,
       },
@@ -94,7 +94,7 @@ export const getAllCategory = async () => {
 export const getCategoryBasedBlogs = async (id) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/category/${id}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/category/${id}`,
       {
         next: {
           revalidate: 10,
@@ -110,7 +110,7 @@ export const getCategoryBasedBlogs = async (id) => {
 
 export const getBlogDetail = async (slug) => {
   try {
-    const response = await fetch(`https://blogs-23vc.onrender.com/${slug}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${slug}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -129,7 +129,7 @@ export const getBlogDetail = async (slug) => {
 
 export async function createNewPost(formData, token) {
   try {
-    const response = await fetch("https://blogs-23vc.onrender.com/blogs", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`, {
       method: "POST",
       body: formData,
       credentials: "include",
@@ -155,7 +155,7 @@ export async function createNewPost(formData, token) {
 
 export const fetchAllForums = async () => {
   try {
-    const response = await fetch("https://blogs-23vc.onrender.com/api/forum", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/forum`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -179,7 +179,7 @@ export const createComment = async (slug, comment, token) => {
 
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/blogs/${slug}/comment`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${slug}/comment`,
       {
         method: "POST",
         headers: {
@@ -205,7 +205,7 @@ export const createComment = async (slug, comment, token) => {
 export const deleteReply = async (forumId, replyId, token) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/api/forum/${forumId}/reply/${replyId}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/forum/${forumId}/reply/${replyId}`,
       {
         method: "DELETE",
         headers: {
@@ -228,7 +228,7 @@ export const deleteReply = async (forumId, replyId, token) => {
 export const CreateThread = async (newThreadTitle, newThreadContent, token) => {
   console.log(newThreadTitle, newThreadContent, token);
   try {
-    const response = await fetch("https://blogs-23vc.onrender.com/api/forum", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/forum`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -250,7 +250,7 @@ export const CreateThread = async (newThreadTitle, newThreadContent, token) => {
 export const deleteThread = async (params, token) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/api/forum/${params}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/forum/${params}`,
       {
         method: "DELETE",
         headers: {
@@ -270,7 +270,7 @@ export const createReply = async (threadId, token, reply) => {
   console.log("first", threadId, "second", token, "third", reply);
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/api/forum/${threadId}/reply`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/forum/${threadId}/reply`,
       {
         method: "POST",
         headers: {
@@ -293,7 +293,7 @@ export const deleteBlog = async (id, token) => {
   console.log(id, token, "testing...");
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/blogs/${id}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -316,7 +316,7 @@ export const deleteBlog = async (id, token) => {
 export const editBlog = async (formData, slug, token) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/blogs/${slug}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${slug}`,
       {
         method: "PUT",
         body: formData,
@@ -339,7 +339,7 @@ export const editBlog = async (formData, slug, token) => {
 export const menu = async () => {
   try {
     const response = await fetch(
-      "https://blogs-23vc.onrender.com/api/menu/maindesktop"
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/menu/maindesktop`
     );
     const data = await response.json();
 
@@ -351,7 +351,7 @@ export const menu = async () => {
 
 export const getAllBlogSlugs = async () => {
   try {
-    const response = await fetch(`https://blogs-23vc.onrender.com/`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -392,7 +392,7 @@ export const getAllBlogSlugs = async () => {
 
 export const getAllJobs = async () => {
   try {
-    const response = await fetch("https://blogs-23vc.onrender.com/api/career", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/career`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -414,7 +414,7 @@ export const getAllJobs = async () => {
 export const getJobDetail = async (id) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/api/career/${id}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/career/${id}`,
       {
         method: "GET",
         headers: {
@@ -436,7 +436,7 @@ export const getJobDetail = async (id) => {
 export const getAllServices = async () => {
   try {
     const response = await fetch(
-      "https://blogs-23vc.onrender.com/api/services",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/services`,
       {
         method: "GET",
         headers: {
@@ -460,7 +460,7 @@ export const getAllServices = async () => {
 export const createLikeComment = async (id, blogId, token) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/blogs/${blogId}/comment/${id}/like`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${blogId}/comment/${id}/like`,
       {
         method: "POST",
         headers: {
@@ -481,7 +481,7 @@ export const createLikeComment = async (id, blogId, token) => {
 export const removeLikeComment = async (id, blogId, likeId, token) => {
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/blogs/${blogId}/comment/${id}/like/${likeId}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${blogId}/comment/${id}/like/${likeId}`,
       {
         method: "DELETE",
         headers: {
@@ -503,7 +503,7 @@ export const createCommentReply = async (blogId, reply, token, commentId) => {
   //console.log(blogId, reply, token, commentId);
   try {
     const response = await fetch(
-      `https://blogs-23vc.onrender.com/blogs/${blogId}/comment/${commentId}/reply`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${blogId}/comment/${commentId}/reply`,
       {
         method: "POST",
         headers: {
